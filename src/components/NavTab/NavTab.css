@@ -1,0 +1,22 @@
+.navtab{
+    padding: 9px 0 0;
+    background: #202020;
+}
+.navtab__list{
+    display: flex;
+    list-style: none;
+    column-gap: 40px;
+    justify-content: center;
+    margin: 0;
+    padding: 15px 0 24px 0;
+    background: #272727;
+}
+.navtab__link{
+    font-family: 'Inter', 'Arial', 'sans-serif';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 16px;
+    border-bottom: solid 1px #fff;
+    color: #fff;
+}
