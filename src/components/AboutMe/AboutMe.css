@@ -1,0 +1,100 @@
+.about-me{
+    padding: 110px 70px 125px 70px;
+    background: #202020;
+}
+.about-me__title{
+    padding-bottom: 23px;
+    border-bottom: solid 1px #fff;
+    margin: 0;
+    font-family: 'Inter', 'Arial', 'sans-serif';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 27px;
+    letter-spacing: -0.04em;
+    color: #FFFFFF;
+}
+.about-me__container{
+    display: flex;
+    justify-content: space-between;
+    column-gap: 270px;
+    padding: 66px 0 100px;
+}
+.about-me__name{
+    margin: 0;
+    font-family: 'Inter', 'Arial', 'sans-serif';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 50px;
+    line-height: 58px;
+    letter-spacing: -0.04em;
+    color: #FFFFFF;
+}
+.about-me__subtitle{
+    margin: 18px 0 0;
+    font-family: 'Inter', 'Arial', 'sans-serif';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 20px;
+    color: #FFFFFF;
+    mix-blend-mode: normal;
+}
+.about-me__text{
+    margin: 26px 0 0;
+    font-family: 'Inter', 'Arial', 'sans-serif';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 22px;
+    color: #FFFFFF;
+    mix-blend-mode: normal;
+}
+.about-me__subtext{
+    text-decoration: none;
+    margin-top: 99px;
+    display: block;
+    font-family: 'Inter', 'Arial', 'sans-serif';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    color: #FFFFFF;
+}
+.about-me__img{
+    width: 270px;
+    height: 327px;
+}
+.about-me__portfolio{
+    margin: 0 0 50px;
+    font-family: 'Inter', 'Arial', 'sans-serif';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 20px;
+    color: #8B8B8B;
+    mix-blend-mode: normal;
+}
+.about-me__list{
+    margin: 0;
+    padding-left: 0;
+    list-style: none;
+}
+.about-me__item{
+    padding-bottom: 19px;
+    border-bottom: solid 1px #424242;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.about-me__link{
+    margin: 20px 0 0;
+    font-family: 'Inter', 'Arial', 'sans-serif';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 50px;
+    letter-spacing: -0.04em;
+    color: #FFFFFF;
+    text-decoration: none;
+}
