@@ -1,7 +1,7 @@
 .about-project{
     background: #202020;
 }
-.about__container{
+.about-project__container{
     max-width: 1280px;
     width: 100%;
     margin: auto;
@@ -96,7 +96,7 @@
     color: #8B8B8B;
 }
 @media (max-width: 1023px){
-    .about__container{
+    .about-project__container{
         padding: 90px 50px;
     }
     .about-project__info-container{
@@ -116,8 +116,8 @@
     }
 }
 @media (max-width: 767px){
-    .about__container{
-        padding: 71px 18px;
+    .about-project__container{
+        padding: 72px 18px;
     }
     .about-project__info-container{
         flex-direction: column;

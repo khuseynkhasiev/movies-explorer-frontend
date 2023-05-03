@@ -1,6 +1,5 @@
 import './AboutMe.css';
 import myPhoto from '../../images/my-photo.png';
-import aboutMeArrow from '../../images/about-me-arrow.svg'
 export default function AboutMe() {
     return (
         <section className='about-me'>
@@ -16,12 +15,6 @@ export default function AboutMe() {
                     </div>
                     <img className='about-me__img' src={myPhoto} alt='my-photo' />
                 </div>
-                <h3 className='about-me__portfolio'>Портфолио</h3>
-                <ul className='about-me__list'>
-                    <li className='about-me__item'><a className='about-me__link' href='#'>Статичный сайт</a><img className='about-me__arrow' src={aboutMeArrow}></img></li>
-                    <li className='about-me__item'><a className='about-me__link' href='#'>Адаптивный сайт</a><img className='about-me__arrow' src={aboutMeArrow}></img></li>
-                    <li className='about-me__item'><a className='about-me__link' href='#'>Одностраничное приложение</a><img className='about-me__arrow' src={aboutMeArrow}></img></li>
-                </ul>
             </div>
         </section>
     )
