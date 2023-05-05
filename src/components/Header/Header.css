@@ -9,7 +9,6 @@
     display: flex;
     justify-content: space-between;
 }
-
 .header__logo{
     background-image: url(../../images/logo.svg);
     width: 38px;

@@ -1,0 +1,95 @@
+.search-form{
+    background: #202020;
+}
+.search-form__container{
+    max-width: 1280px;
+    width: 100%;
+    padding: 68px 70px 10px 70px;
+    box-sizing: border-box;
+    margin: auto;
+}
+.search-form__form{
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+.search-form__movie-search{
+    max-width: 913px;
+    width: 100%;
+    background: #2F2F2F;
+    border-radius: 9px 0 0 9px;
+    display: flex;
+    column-gap: 12px;
+    height: 72px;
+    align-items: center;
+    padding: 0 30px 0 19px;
+    box-sizing: border-box;
+}
+.search-form__search-icon{
+    background-image: url(../../images/search-icon.svg);
+    width: 34px;
+    height: 34px;
+}
+.search-form__input{
+    max-width: 772px;
+    width: 100%;
+    background: #2F2F2F;
+    border-style: none;
+    font-family: 'Inter', 'Arial', 'sans-serif';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 20px;
+    color: #8B8B8B;
+}
+.search-form__submit{
+    background: #4285F4;
+    border-radius: 48px;
+    min-width: 34px;
+    height: 34px;
+    border-style: none;
+    background-image: url(../../images/search-form-icon-btn.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.search-form__line{
+    background: #424242;
+    height: 1px;
+    width: 100%;
+    margin-top: 69px;
+}
+
+@media (max-width: 1023px){
+    .search-form__container{
+        padding: 78px 30px 10px 30px;
+    }
+    .search-form__movie-search {
+        column-gap: 15px;
+        padding: 0 19px 0 19px;
+    }
+    .search-form__input {
+        font-size: 14px;
+        line-height: 20px;
+    }
+    .search-form__line {
+        margin-top: 109px;
+    }
+}
+@media (max-width: 767px){
+    .search-form__container{
+        padding: 80px 10px 10px 10px;
+    }
+    .search-form__search-icon {
+        display: none;
+    }
+    .search-form__form {
+        flex-direction: column;
+        row-gap: 19px;
+    }
+    .search-form__movie-search {
+        border-radius: 9px 9px 9px 9px;
+    }
+    .search-form__line {
+        margin-top: 18px;
+    }
+}
