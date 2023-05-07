@@ -54,16 +54,14 @@
     }
     .filter-checkbox__text {
         margin-left: 15px;
-    }
-    .filter-checkbox__line {
-        display: none;
-    }
-    .filter-checkbox__text {
-        font-size: 11px;
+        font-size: 13px;
         line-height: 18px;
     }
 }
 @media (max-width: 767px) {
+    .filter-checkbox__line {
+        display: none;
+    }
     .filter-checkbox {
         background: none;
         justify-content: center;
@@ -74,5 +72,6 @@
     }
     .filter-checkbox__text {
         margin-left: 0;
+        font-size: 11px;
     }
 }

@@ -68,7 +68,7 @@
         padding: 0 19px 0 19px;
     }
     .search-form__input {
-        font-size: 14px;
+        font-size: 18px;
         line-height: 20px;
     }
     .search-form__line {
@@ -91,5 +91,8 @@
     }
     .search-form__line {
         margin-top: 18px;
+    }
+    .search-form__input {
+        font-size: 14px;
     }
 }

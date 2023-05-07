@@ -129,5 +129,27 @@ const cards = [
         _id: '16',
     },
 ]
-
-export {cards};
+const savedCards = [
+    {
+        name: '33 слова о дизайне',
+        image: movie1,
+        time: '1ч 42м',
+        isLike: true,
+        _id: '1',
+    },
+    {
+        name: 'Киноальманах «100 лет дизайна»',
+        image: movie2,
+        time: '1ч 42м',
+        isLike: false,
+        _id: '2',
+    },
+    {
+        name: 'В погоне за Бенкси',
+        image: movie3,
+        time: '1ч 42м',
+        isLike: false,
+        _id: '3',
+    },
+]
+export {cards, savedCards};

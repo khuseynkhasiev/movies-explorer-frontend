@@ -14,7 +14,6 @@
     list-style: none;
     display: grid;
     grid-template-columns: repeat(auto-fit, 270px);
-    justify-content: center;
     grid-column-gap: 20px;
     grid-row-gap: 36px;
     grid-template-rows: repeat(4, min-content);

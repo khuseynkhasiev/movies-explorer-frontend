@@ -7,12 +7,14 @@ import Footer from "../Footer/Footer";
 import Movies from "../Movies/Movies";
 import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
+import SavedMovies from "../SavedMovies/SavedMovies";
 
 function App() {
   return (
       <div className='page'>
           {/*<Main />*/}
-          <Movies />
+          {/*<Movies />*/}
+          <SavedMovies />
           <Footer />
       </div>
   );

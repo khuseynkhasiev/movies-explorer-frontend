@@ -47,6 +47,11 @@
     justify-content: center;
     column-gap: 7px;
 }
+.header-result__profile-icon{
+    background-image: url(../../images/profile-icon.svg);
+    width: 12px;
+    height: 14px;
+}
 .header-result__profile-text{
     font-family: 'Inter', 'Arial', 'sans-serif';
     font-style: normal;

@@ -1,9 +1,8 @@
 import {useState, useEffect} from "react";
 import './MoviesCardList.css';
 import MoviesCard from "../MoviesCard/MoviesCard";
-import {cards} from "../../constants";
 
-export default function MoviesCardList(){
+export default function MoviesCardList({cards}){
     const [newCardsList, setNewCardsList] = useState(cards);
     const [windowWidth, setWindowWidth] = useState();
 
@@ -39,7 +38,9 @@ export default function MoviesCardList(){
                         })
                     }
                 </ul>
-                <button className='movies-card-list__btn'>Ещё</button>
+                {
+                    newCardsList.length > 7 ? <button className='movies-card-list__btn'>Ещё</button> : null
+                }
             </div>
         </section>
     )
