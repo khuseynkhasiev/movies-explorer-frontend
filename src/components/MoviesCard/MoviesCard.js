@@ -8,7 +8,7 @@ export default function MoviesCard({card}){
         <li className='movies-card'>
 
             <div className='movies-card__info'>
-                <img className='movies-card__img' src={card.image} alt='card1'/>
+                <img className='movies-card__img' src={card.image} alt={card.name}/>
                 <div className='movies-card__info-line'>
                     <p className='movies-card__text'>{card.name}</p>
                     <button className={cardLikeButtonClassName} type="button" aria-label="кнопка выставления лайка или отмены лайка"></button>

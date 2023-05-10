@@ -45,6 +45,7 @@
     height: 100%;
     z-index: 10;
     padding: 20px;
+    background: #202020;;
 }
 .preloader__container {
     width: 100px;
@@ -57,7 +58,7 @@
     position: absolute;
     top: 0;
     left: 0;
-    background: #FF6838;
+    background: #202020;
     border-radius: 50px;
 }
 .preloader__round::after,
@@ -71,11 +72,11 @@
     border-radius: 50px;
 }
 .preloader__round::after {
-    background: white;
+    background: #202020;
     animation: preloader-inside-white 1s ease-in-out infinite;
 }
 .preloader__round::before {
     z-index: 10;
-    background: #FF6838;
+    background: #4285F4;
     animation: preloader-inside-red 1s ease-in-out infinite;
 }

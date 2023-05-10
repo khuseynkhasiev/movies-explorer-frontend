@@ -35,9 +35,13 @@
     line-height: 15px;
     display: flex;
     align-items: center;
-    text-align: center;
     justify-content: center;
     color: #FFFFFF;
+    transition: all 0.5s ease;
+}
+.movies-card-list__btn:hover{
+    cursor: pointer;
+    opacity: .5;
 }
 @media (max-width: 1023px){
     .movies-card-list__elements {

@@ -21,6 +21,11 @@
     background-image: url(../../images/logo.svg);
     width: 38px;
     height: 38px;
+    transition: all 0.5s ease;
+}
+.register__logo:hover{
+    cursor: pointer;
+    opacity: .5;
 }
 .register__title{
     font-family: 'Inter', 'Arial', 'sans-serif';
@@ -82,6 +87,11 @@
     text-align: center;
     color: #FFFFFF;
     margin-top: 127px;
+    transition: all 0.5s ease;
+}
+.register__submit-btn:hover{
+    cursor: pointer;
+    opacity: .5;
 }
 .register__subtext{
     font-family: 'Inter', 'Arial', 'sans-serif';
@@ -95,6 +105,11 @@
 }
 .register__link{
     color: #4285F4;
+    transition: all 0.5s ease;
+}
+.register__link:hover{
+    cursor: pointer;
+    opacity: .5;
 }
 @media (max-width: 767px) {
     .register__form {

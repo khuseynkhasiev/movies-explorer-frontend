@@ -1,6 +1,10 @@
 import {useState} from "react";
 import './Login.css';
-export default function Login(){
+export default function Login(props){
+    const {
+        handleButtonRegister,
+        handleButtonLogo
+    } = props;
     const [userDate, setUserDate] = useState({
         email: '',
         password: '',
@@ -15,7 +19,7 @@ export default function Login(){
     return (
         <div className='login'>
             <header className='login__header'>
-                <div className='login__logo'></div>
+                <div className='login__logo' onClick={handleButtonLogo}></div>
             </header>
             <form className='login__form' onSubmit={handleSubmitForm}>
                 <h3 className="login__title">Рады видеть!</h3>
@@ -43,7 +47,7 @@ export default function Login(){
                 <span className='login__input-error'>Что-то пошло не так...</span>
                 <button type="submit" className="login__submit-btn">Войти</button>
                 <p className="login__subtext">
-                    Ещё не зарегистрированы?<span className="login__link">  Регистрация</span>
+                    Ещё не зарегистрированы?<span className="login__link" onClick={handleButtonRegister}> Регистрация</span>
                 </p>
             </form>
         </div>

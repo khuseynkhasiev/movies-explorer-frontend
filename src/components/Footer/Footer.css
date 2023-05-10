@@ -54,6 +54,10 @@
     text-align: right;
     color: #FFFFFF;
     text-decoration: none;
+    transition: all 0.5s ease;
+}
+.footer__link:hover{
+    opacity: .5;
 }
 @media (max-width: 1023px){
     .footer__container{

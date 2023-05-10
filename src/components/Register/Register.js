@@ -1,6 +1,10 @@
 import './Register.css';
 import {useState} from "react";
-export default function Register(){
+export default function Register(props){
+    const {
+        handleButtonSignIn,
+        handleButtonLogo
+    } = props;
     const [userDate, setUserDate] = useState({
         name: '',
         email: '',
@@ -16,7 +20,7 @@ export default function Register(){
     return (
         <div className='register'>
             <header className='register__header'>
-                <div className='register__logo'></div>
+                <div className='register__logo' onClick={handleButtonLogo}></div>
             </header>
             <form className='register__form' onSubmit={handleSubmitForm}>
                 <h3 className="register__title">Добро пожаловать!</h3>
@@ -55,7 +59,7 @@ export default function Register(){
                 <span className='reqister__input-error'>Что-то пошло не так...</span>
                 <button type="submit" className="register__submit-btn">Зарегистрироваться</button>
                 <p className="register__subtext">
-                    Уже зарегистрированы?<span className="register__link">  Войти</span>
+                    Уже зарегистрированы?<span className="register__link" onClick={handleButtonSignIn}>  Войти</span>
                 </p>
             </form>
         </div>

@@ -41,6 +41,7 @@
     font-size: 18px;
     line-height: 20px;
     color: #8B8B8B;
+    outline-color: #4285F4;
 }
 .search-form__submit{
     background: #4285F4;
@@ -51,6 +52,11 @@
     background-image: url(../../images/search-form-icon-btn.svg);
     background-repeat: no-repeat;
     background-position: center;
+    transition: all 0.5s ease;
+}
+.search-form__submit:hover{
+    cursor: pointer;
+    opacity: .5;
 }
 .search-form__line{
     background: #424242;

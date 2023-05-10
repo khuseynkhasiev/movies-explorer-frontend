@@ -1,6 +1,14 @@
 .menu{
     position: absolute;
     top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: rgb(0%, 0%, 0%, 0.3);
+}
+.menu__container{
+    position: absolute;
+    top: 0;
     right: 0;
     max-width: 520px;
     width: 100%;
@@ -16,11 +24,21 @@
      position: absolute;
      top: 22.4px;
      right: 22.4px;
+     transition: all 0.5s ease;
  }
+.menu__exit-icon:hover{
+    cursor: pointer;
+    opacity: .5;
+}
 .menu__nav{
+    display: flex;
     padding: 159px 0 90px;
     box-sizing: border-box;
     height: 100%;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: nowrap;
 }
 .menu__nav-list{
     display: flex;
@@ -30,16 +48,21 @@
     width: 100%;
     list-style: none;
     padding-left: 0;
-    margin: auto;
     text-align: center;
 }
 .menu__nav-link{
+    font-family: 'Inter', 'Arial', 'sans-serif';
     text-decoration: none;
     font-style: normal;
     font-weight: 500;
     font-size: 18px;
     line-height: 22px;
     color: #FFFFFF;
+    transition: all 0.5s ease;
+}
+.menu__nav-link:hover{
+    cursor: pointer;
+    opacity: .5;
 }
 .menu__nav-link_active{
     padding-bottom: 4px;
@@ -54,6 +77,11 @@
     align-items: center;
     justify-content: center;
     column-gap: 7px;
+    transition: all 0.5s ease;
+}
+.menu__profile-block:hover{
+    cursor: pointer;
+    opacity: .5;
 }
 .menu__profile-icon{
     background-image: url(../../images/profile-icon.svg);
@@ -68,4 +96,12 @@
     line-height: 16px;
     color: #FFFFFF;
     margin: 0;
+}
+@media (max-width: 767px) {
+    .menu__nav-list{
+        row-gap: 24px;
+    }
+    .menu__nav-link_active {
+        padding-bottom: 7px;
+    }
 }

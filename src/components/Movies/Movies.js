@@ -3,14 +3,14 @@ import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import HeaderResult from "../HeaderResult/HeaderResult";
 import {cards} from "../../constants";
 import Menu from "../Menu/Menu";
+import Preloader from "../Preloader/Preloader";
 
 export default function Movies() {
     return (
         <section className='movies'>
-            <HeaderResult />
-            <SearchForm />
-            <Menu />
+            {/*<Menu />*/}
             <MoviesCardList cards={cards}/>
+            {/*<Preloader />*/}
         </section>
     )
 }
