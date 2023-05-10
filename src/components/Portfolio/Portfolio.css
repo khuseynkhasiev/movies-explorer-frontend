@@ -31,6 +31,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    transition: all 0.5s ease;
 }
 .portfolio__item:last-of-type{
     border-bottom: none;
@@ -45,6 +46,18 @@
     letter-spacing: -0.04em;
     color: #FFFFFF;
     text-decoration: none;
+    transition: all 0.5s ease;
+}
+.portfolio__link:hover{
+    cursor: pointer;
+    opacity: .5;
+}
+.portfolio__link-arrow{
+    transition: all 0.5s ease;
+}
+.portfolio__link-arrow:hover{
+    cursor: pointer;
+    opacity: .5;
 }
 .portfolio__arrow{
     margin-right: 7px;
@@ -79,10 +92,9 @@
     }
     .portfolio__arrow {
         width: 15px;
-        height: 10px;
         margin-right: 2px;
         margin-top: 17px;
-    }
+    }W
     .portfolio__item{
         border-bottom: solid 1px #E6E6E6;
     }

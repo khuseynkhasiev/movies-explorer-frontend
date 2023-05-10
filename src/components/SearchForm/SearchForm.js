@@ -7,7 +7,7 @@ export default function SearchForm(){
                 <form className='search-form__form'>
                     <div className='search-form__movie-search'>
                         <div className='search-form__search-icon'></div>
-                        <input className='search-form__input' type='text' placeholder='Фильм'/>
+                        <input className='search-form__input' type='text' placeholder='Фильм' required/>
                         <button className='search-form__submit' type='submit' />
                     </div>
                     <FilterCheckbox />
