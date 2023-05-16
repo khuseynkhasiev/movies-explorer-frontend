@@ -27,6 +27,7 @@ export default function FilterCheckbox(props){
                        onChange={handleCheckedShortFilm}
                        type='checkbox' id='short-films'
                        name='short-films'
+                       checked={checked}
                 />
                 <label className='filter-checkbox__label' htmlFor='short-films'></label>
             </div>

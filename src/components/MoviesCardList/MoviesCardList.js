@@ -11,6 +11,34 @@ export default function MoviesCardList(props){
     const [windowWidth, setWindowWidth] = useState();
     const [isVisibleBtn, setIsVisibleBtn] = useState(false);
 
+    const [numberEndResize1280, setNumberSize1280] = useState(20);
+    const [numberEndResize1024, setNumberSize1024] = useState(12);
+    const [numberEndResize650, setNumberSize650] = useState(10);
+    const [numberEndResize320, setNumberSize320] = useState(6);
+
+    function handleIncrementBtnMovies(){
+        if (windowWidth > 1279){
+            setNumberSize1280(numberEndResize1280+4);
+            setNewCardsList(cards.slice(0,numberEndResize1280))
+            handleVisibleBtn(cards.length, numberEndResize1280);
+        }
+        else if (windowWidth < 1280 & windowWidth > 1023){
+            setNumberSize1024(numberEndResize1024+3);
+            setNewCardsList(cards.slice(0,numberEndResize1024))
+            handleVisibleBtn(cards.length, numberEndResize1024);
+        }
+        else if (windowWidth < 1024 & windowWidth > 649){
+            setNumberSize650(numberEndResize650+2);
+            setNewCardsList(cards.slice(0,numberEndResize650))
+            handleVisibleBtn(cards.length, numberEndResize650);
+        }
+        else if (windowWidth < 650 & windowWidth > 319){
+            setNumberSize320(numberEndResize320+1);
+            setNewCardsList(cards.slice(0,numberEndResize320))
+            handleVisibleBtn(cards.length, numberEndResize320);
+        }
+    }
+
     useEffect(() => {
         window.addEventListener('resize', handlerResize);
         handlerResize();
@@ -19,13 +47,9 @@ export default function MoviesCardList(props){
         }
     }, [windowWidth, cards]);
 
-    function handleIncrementCardsBtn(){
-        const incrementMovies = cards.slice(16, 20);
-        setNewCardsList([cards.slice(0,16), incrementMovies]);
-    }
     function handlerResize(){
         setWindowWidth(window.innerWidth);
-        if (windowWidth > 1280) {
+        if (windowWidth > 1279) {
             setNewCardsList(cards.slice(0,16));
             handleVisibleBtn(cards.length, newCardsList.length);
         }
@@ -33,15 +57,16 @@ export default function MoviesCardList(props){
             setNewCardsList(cards.slice(0,9));
             handleVisibleBtn(cards.length, newCardsList.length);
         }
-        else if (windowWidth < 1024 & windowWidth > 480) {
+        else if (windowWidth < 1024 & windowWidth > 649) {
             setNewCardsList(cards.slice(0,8));
             handleVisibleBtn(cards.length, newCardsList.length);
         }
-        else if (windowWidth < 768) {
+        else if (windowWidth < 650 & windowWidth > 319) {
             setNewCardsList(cards.slice(0,5));
             handleVisibleBtn(cards.length, newCardsList.length);
         }
     }
+
     function handleVisibleBtn(cardsLength, newCardsListLength){
         if (cardsLength <= newCardsListLength) {
             setIsVisibleBtn(false);
@@ -66,7 +91,7 @@ export default function MoviesCardList(props){
                     </ul>
                 }
                 {
-                    isVisibleBtn && <button className='movies-card-list__btn' onClick={handleIncrementCardsBtn}>Ещё</button>
+                    isVisibleBtn && <button className='movies-card-list__btn' onClick={handleIncrementBtnMovies}>Ещё</button>
                 }
             </div>
         </section>
