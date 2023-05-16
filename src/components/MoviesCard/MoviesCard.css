@@ -8,7 +8,7 @@
 .movies-card__img{
     display: block;
     width: 100%;
-    min-height: 151px;
+    height: 151px;
 }
 .movies-card__info{
     display: flex;

@@ -14,12 +14,51 @@ import Login from "../Login/Login";
 import Profile from "../Profile/Profile";
 import NotFound from "../NotFound/NotFound";
 import HeaderResult from "../HeaderResult/HeaderResult";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import Menu from "../Menu/Menu";
+import { getMovies } from "../../utils/MoviesApi";
 
 function App() {
     const navigate = useNavigate();
     const [menuIsActive, setMenuIsActive] = useState(false);
+    const [isShortFilm, setIsShortFilm] = useState(false);
+    const [moviesCards, setMoviesCards] = useState([]);
+    /*const [requestName, setRequestName] = useState('');*/
+    const [messageNothingFound, setMessageNothingFound] = useState('');
+    const [preloaderActive, setPreloaderActive] = useState(false);
+    const [updateMovies, setUpdateMovies] = useState(false);
+
+    function handleGetMovies(name){
+        setPreloaderActive(true);
+        getMovies(name)
+            .then((data) => {
+                setUpdateMovies(!updateMovies);
+                /*setMoviesCards(getMoviesFilter(name, data))*/
+                handleSaveLocalStorage(name, data);
+                setPreloaderActive(false);
+/*                if (moviesCards.length === 0) {
+                    setMessageNothingFound('Ничего не найдено')
+                } else {
+                    setMessageNothingFound('');
+                }*/
+            })
+            .catch((err) => {
+                setPreloaderActive(false);
+                setMessageNothingFound(err);
+                console.log(err)
+            })
+
+    }
+    function handleSaveLocalStorage(name, data){
+        localStorage.setItem('requestName', name);
+        localStorage.setItem('isShortFilm', JSON.stringify(isShortFilm));
+        localStorage.setItem('movies', JSON.stringify(getMoviesFilter(name, data)));
+    }
+    function getMoviesFilter(name, data){
+        return data.filter((movie) => {
+            return movie.nameRU.toLowerCase().indexOf(name.toLowerCase()) !== -1 || movie.nameEN.toLowerCase().indexOf(name.toLowerCase()) !== -1;
+        })
+    }
     function handleButtonSignIn() {
         navigate("/signin");
     }
@@ -79,7 +118,11 @@ function App() {
                           handleButtonMovies={handleButtonMovies}
                           handleButtonProfile={handleButtonProfile}
                       />
-                      <SearchForm />
+                      <SearchForm
+                          handleGetMovies={handleGetMovies}
+                          setIsShortFilm={setIsShortFilm}
+                          updateMovies={updateMovies}
+                      />
                       {menuIsActive && <Menu
                           handleMenuIsActive={handleMenuIsActive}
                           handleButtonLogo={handleButtonLogo}
@@ -87,7 +130,12 @@ function App() {
                           handleButtonMovies={handleButtonMovies}
                           handleButtonProfile={handleButtonProfile}
                       />}
-                      <Movies />
+                      <Movies
+                          moviesCards={moviesCards}
+                          preloaderActive={preloaderActive}
+                          messageNothingFound={messageNothingFound}
+                          updateMovies={updateMovies}
+                      />
                       <Footer />
                   </>
               }/>
