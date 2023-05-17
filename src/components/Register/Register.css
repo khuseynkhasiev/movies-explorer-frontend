@@ -71,13 +71,14 @@
     margin: 6px 0 6px;
     visibility: hidden;
 }
-.reqister__input-error:last-of-type{
+.reqister__input-error_visible{
     visibility: visible;
 }
+
 .register__submit-btn{
     height: 45px;
     border-style: none;
-    background: #4285F4;
+    background: #8B8B8B;
     border-radius: 3px;
     font-family: 'Inter', 'Arial', 'sans-serif';
     font-style: normal;
@@ -88,6 +89,9 @@
     color: #FFFFFF;
     margin-top: 127px;
     transition: all 0.5s ease;
+}
+.register__submit-btn_active{
+    background: #4285F4;
 }
 .register__submit-btn:hover{
     cursor: pointer;

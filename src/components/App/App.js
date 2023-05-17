@@ -2,6 +2,7 @@ import {Routes, Route, useNavigate, Navigate} from 'react-router-dom';
 import '../../vendor/normalize.css';
 import '../../vendor/fonts/fonts.css';
 import './App.css';
+import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import Main from "../Main/Main";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
@@ -16,7 +17,8 @@ import NotFound from "../NotFound/NotFound";
 import HeaderResult from "../HeaderResult/HeaderResult";
 import {useEffect, useState} from "react";
 import Menu from "../Menu/Menu";
-import { getMovies } from "../../utils/MoviesApi";
+import * as moviesApi from "../../utils/MoviesApi";
+import * as mainApi from "../../utils/MainApi";
 
 function App() {
     const navigate = useNavigate();
@@ -27,10 +29,22 @@ function App() {
     const [messageNothingFound, setMessageNothingFound] = useState('');
     const [preloaderActive, setPreloaderActive] = useState(false);
     const [updateMovies, setUpdateMovies] = useState(false);
+    const [loggedIn, setLoggedIn] = useState(false);
 
+/*    useEffect(() => {
+        checkToken();
+
+    }, [loggedIn])
+    function checkToken(){
+        const token = localStorage.getItem('userId')
+        if(token){
+            setLoggedIn(true);
+            navigate("/movies", {replace: true});
+        }
+    }*/
     function handleGetMovies(name){
         setPreloaderActive(true);
-        getMovies(name)
+        moviesApi.getMovies(name)
             .then((data) => {
                 setUpdateMovies(!updateMovies);
                 /*setMoviesCards(getMoviesFilter(name, data))*/
@@ -57,6 +71,52 @@ function App() {
     function getMoviesFilter(name, data){
         return data.filter((movie) => {
             return movie.nameRU.toLowerCase().indexOf(name.toLowerCase()) !== -1 || movie.nameEN.toLowerCase().indexOf(name.toLowerCase()) !== -1;
+        })
+    }
+
+    function handleRegister({name, email, password}){
+        return mainApi.register(name, email, password)
+            .then((data) => {
+                console.log(data)
+                navigate('/movies', {replace: true});
+            })
+            .catch((err) => console.log(err));
+    }
+    function handleLogin({email, password}){
+        return mainApi.authorize(email, password)
+            .then((res) => {
+                if(res) {
+                    navigate("/movies", {replace: true});
+                    setLoggedIn(true);
+                }
+                console.log(res)
+            })
+            .catch((err) => console.log(err))
+    }
+    function handleSavedCard({ country,
+                                 director,
+                                 duration,
+                                 year,
+                                 description,
+                                 image,
+                                 nameRU,
+                                 nameEN,
+                                 trailerLink,
+                                 id,
+                             }){
+        mainApi.savedCard({
+            country,
+            director,
+            duration,
+            year,
+            description,
+            image,
+            nameRU,
+            nameEN,
+            trailerLink,
+            id,
+        }).then((data) => {
+            console.log(data);
         })
     }
     function handleButtonSignIn() {
@@ -99,17 +159,62 @@ function App() {
               }/>
               <Route path='/signin' element={
                   <Login
+                      handleLogin={handleLogin}
                       handleButtonRegister={handleButtonRegister}
                       handleButtonLogo={handleButtonLogo}
                   />
               }/>
               <Route path='/signup' element={
                   <Register
+                      handleRegister={handleRegister}
                       handleButtonSignIn={handleButtonSignIn}
                       handleButtonLogo={handleButtonLogo}
                   />
               }/>
+
               <Route path='/movies' element={
+                  <>
+                      <ProtectedRoute
+                          loggedIn={loggedIn}
+                          component={HeaderResult}
+                          handleMenuIsActive={handleMenuIsActive}
+                          handleButtonLogo={handleButtonLogo}
+                          handleButtonSavedMovies={handleButtonSavedMovies}
+                          handleButtonMovies={handleButtonMovies}
+                          handleButtonProfile={handleButtonProfile}
+                      />
+                      <ProtectedRoute
+                          loggedIn={loggedIn}
+                          component={SearchForm}
+                          handleGetMovies={handleGetMovies}
+                          setIsShortFilm={setIsShortFilm}
+                          updateMovies={updateMovies}
+                      />
+{/*                      <ProtectedRoute
+                          loggedIn={loggedIn}
+                          component={menuIsActive && Menu}
+                          handleMenuIsActive={handleMenuIsActive}
+                          handleButtonLogo={handleButtonLogo}
+                          handleButtonSavedMovies={handleButtonSavedMovies}
+                          handleButtonMovies={handleButtonMovies}
+                          handleButtonProfile={handleButtonProfile}
+                      />*/}
+                      <ProtectedRoute
+                          loggedIn={loggedIn}
+                          component={Movies}
+                          moviesCards={moviesCards}
+                          preloaderActive={preloaderActive}
+                          messageNothingFound={messageNothingFound}
+                          updateMovies={updateMovies}
+                          handleSavedCard={handleSavedCard}
+                      />
+                      <ProtectedRoute
+                          loggedIn={loggedIn}
+                          component={Footer}
+                      />
+                  </>
+              }/>
+{/*              <Route path='/movies' element={
                   <>
                       <HeaderResult
                           handleMenuIsActive={handleMenuIsActive}
@@ -135,11 +240,12 @@ function App() {
                           preloaderActive={preloaderActive}
                           messageNothingFound={messageNothingFound}
                           updateMovies={updateMovies}
+                          handleSavedCard={handleSavedCard}
                       />
                       <Footer />
                   </>
-              }/>
-              <Route path='/saved-movies' element={
+              }/>*/}
+{/*              <Route path='/saved-movies' element={
                   <>
                       <HeaderResult
                           handleMenuIsActive={handleMenuIsActive}
@@ -158,6 +264,39 @@ function App() {
                       />}
                       <SavedMovies />
                       <Footer />
+                  </>
+              }/>*/}
+              <Route path='/saved-movies' element={
+                  <>
+                      <ProtectedRoute
+                          loggedIn={loggedIn}
+                          component={HeaderResult}
+                          handleMenuIsActive={handleMenuIsActive}
+                          handleButtonLogo={handleButtonLogo}
+                          handleButtonSavedMovies={handleButtonSavedMovies}
+                          handleButtonMovies={handleButtonMovies}
+                          handleButtonProfile={handleButtonProfile}
+                      />
+                      <ProtectedRoute
+                          loggedIn={loggedIn}
+                          component={SearchForm}
+                      />
+{/*                      <ProtectedRoute
+                        component={menuIsActive && Menu}
+                        handleMenuIsActive={handleMenuIsActive}
+                        handleButtonLogo={handleButtonLogo}
+                        handleButtonSavedMovies={handleButtonSavedMovies}
+                        handleButtonMovies={handleButtonMovies}
+                        handleButtonProfile={handleButtonProfile}
+                      />*/}
+                      <ProtectedRoute
+                          loggedIn={loggedIn}
+                          component={SavedMovies}
+                      />
+                      <ProtectedRoute
+                          loggedIn={loggedIn}
+                          component={Footer}
+                      />
                   </>
               }/>
               <Route path='/profile' element={

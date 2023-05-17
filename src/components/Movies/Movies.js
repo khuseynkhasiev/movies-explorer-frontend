@@ -10,7 +10,8 @@ export default function Movies(props){
     const {
         preloaderActive,
         messageNothingFound,
-        updateMovies
+        updateMovies,
+        handleSavedCard
     } = props;
 
     const [moviesCards, setMoviesCards] = useState([]);
@@ -27,6 +28,7 @@ export default function Movies(props){
                     <MoviesCardList
                         cards={moviesCards}
                         messageNothingFound={messageNothingFound}
+                        handleSavedCard={handleSavedCard}
                     />
                 </section>
             }

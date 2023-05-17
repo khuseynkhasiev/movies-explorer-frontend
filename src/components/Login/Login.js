@@ -3,18 +3,21 @@ import './Login.css';
 export default function Login(props){
     const {
         handleButtonRegister,
-        handleButtonLogo
+        handleButtonLogo,
+        handleLogin
     } = props;
     const [userDate, setUserDate] = useState({
         email: '',
         password: '',
     });
+
     function handleUserDate(e){
         const {name, value} = e.target;
         setUserDate({...userDate, [name]: value})
     }
     function handleSubmitForm(e){
         e.preventDefault();
+        handleLogin(userDate);
     }
     return (
         <div className='login'>

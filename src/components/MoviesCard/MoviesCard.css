@@ -41,7 +41,7 @@
     border-style: none;
     cursor: pointer;
 }
-.movies-card__btn:hover{
+/*.movies-card__btn:hover{
     width: 24px;
     height: 24px;
     background-color: #313131;
@@ -50,7 +50,7 @@
     background-position: center;
     border-radius: 36px;
     border-style: none;
-}
+}*/
 .movies-card__btn_active{
     background-image: url(../../images/card-like.svg);
     background-repeat: no-repeat;
