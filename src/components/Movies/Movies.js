@@ -11,7 +11,7 @@ export default function Movies(props){
         preloaderActive,
         messageNothingFound,
         updateMovies,
-        handleSavedCard
+        handlerSavedCard
     } = props;
 
     const [moviesCards, setMoviesCards] = useState([]);
@@ -19,7 +19,6 @@ export default function Movies(props){
     useEffect(()=>{
         setMoviesCards(JSON.parse(localStorage.getItem('movies')));
     },[updateMovies]);
-    console.log(moviesCards);
     return (
         <>
             {preloaderActive ?
@@ -28,7 +27,7 @@ export default function Movies(props){
                     <MoviesCardList
                         cards={moviesCards}
                         messageNothingFound={messageNothingFound}
-                        handleSavedCard={handleSavedCard}
+                        handlerSavedCard={handlerSavedCard}
                     />
                 </section>
             }

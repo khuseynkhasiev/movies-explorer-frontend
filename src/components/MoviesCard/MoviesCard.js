@@ -3,11 +3,11 @@ import './MoviesCard.css';
 export default function MoviesCard(props){
     const {
         card,
-        handleSavedCard
+        handlerSavedCard
     } = props;
 
     function handleLikeCardBtn(){
-        handleSavedCard(card);
+        handlerSavedCard(card);
     }
 
     const cardLikeButtonClassName = (

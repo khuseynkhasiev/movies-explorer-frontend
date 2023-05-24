@@ -15,16 +15,24 @@ const register = (name, email, password) => {
 const authorize = (email, password) => {
     return fetch(`${BASE_URL}/signin`, {
         method: 'POST',
+        credentials: "include",
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({email, password})
-    }).then(getResponse)
-        .then((data) => {
-            console.log(data);
-            /*localStorage.setItem('userId', '646489fcc0642533dbcb1d49');*/
-            return data;
+    }).then((res) => getResponse(res))
+        .then((user) => {
+            localStorage.setItem('userId', user._id);
+            return user;
         })
+}
+const getProfileInfo = () => {
+    return fetch(`${BASE_URL}/users/me`, {
+        credentials: "include",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    }).then((res) => getResponse(res))
 }
 const savedCard = (country,
                    director,
@@ -55,7 +63,7 @@ const savedCard = (country,
             trailerLink,
             movieId,
         })
-    }).then(getResponse);
+    }).then((res) => getResponse(res));
 }
 
-export { savedCard, register, authorize }
+export { savedCard, register, authorize, getProfileInfo }

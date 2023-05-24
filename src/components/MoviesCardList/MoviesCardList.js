@@ -6,7 +6,7 @@ export default function MoviesCardList(props){
     const {
         cards,
         messageNothingFound,
-        handleSavedCard
+        handlerSavedCard
     } = props;
     const [newCardsList, setNewCardsList] = useState([])
     const [windowWidth, setWindowWidth] = useState();
@@ -87,7 +87,7 @@ export default function MoviesCardList(props){
                             return <MoviesCard
                                 card={card}
                                 key={card.id}
-                                handleSavedCard={handleSavedCard}/>
+                                handlerSavedCard={handlerSavedCard}/>
                             })
                         }
                     </ul>
