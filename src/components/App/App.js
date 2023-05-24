@@ -32,6 +32,7 @@ function App() {
     const [preloaderActive, setPreloaderActive] = useState(false);
     const [updateMovies, setUpdateMovies] = useState(false);
     const [loggedIn, setLoggedIn] = useState(false);
+    const [patchUserIsError, setPatchUserIsError] = useState(false);
 
     useEffect(() => {
         checkToken();
@@ -96,14 +97,21 @@ function App() {
                 if(res) {
                     navigate("/movies", {replace: true});
                     setLoggedIn(true);
+                    setPatchUserIsError(false);
                 }
             })
-            .catch((err) => console.log(err))
+            .catch((err) => setPatchUserIsError(true))
     }
     function handlerUserExit(){
         setLoggedIn(false);
         localStorage.removeItem('userId');
         navigate("/");
+    }
+    function handlerPatchUser({email, name}) {
+        return mainApi.patchUser(email, name)
+            .then((user) => {
+                setCurrentUser(user)
+            }).catch((err) => console.log(`Ошибка: ${err}`))
     }
     function handlerSavedCard({ country,
                                  director,
@@ -137,19 +145,19 @@ function App() {
     function handleButtonRegister() {
         navigate("/signup");
     }
-    function handleButtonLogo() {
+    function handlerButtonLogo() {
         navigate("/");
     }
-    function handleButtonSavedMovies() {
+    function handlerButtonSavedMovies() {
         navigate("/saved-movies");
     }
-    function handleButtonMovies() {
+    function handlerButtonMovies() {
         navigate("/movies");
     }
-    function handleButtonProfile() {
+    function handlerButtonProfile() {
         navigate("/profile");
     }
-    function handleMenuIsActive(){
+    function handlerMenuIsActive(){
         if(menuIsActive) {
             setMenuIsActive(false);
         } else {
@@ -163,7 +171,7 @@ function App() {
                   <Route path='/' element={
                       <>
                           <Header
-                              handleButtonLogo={handleButtonLogo}
+                              handlerButtonLogo={handlerButtonLogo}
                               handleButtonSignIn={handleButtonSignIn}
                               handleButtonRegister={handleButtonRegister}/>
                           <Main />
@@ -174,165 +182,63 @@ function App() {
                       <Login
                           handleLogin={handleLogin}
                           handleButtonRegister={handleButtonRegister}
-                          handleButtonLogo={handleButtonLogo}
+                          handlerButtonLogo={handlerButtonLogo}
                       />
                   }/>
                   <Route path='/signup' element={
                       <Register
                           handleRegister={handleRegister}
                           handleButtonSignIn={handleButtonSignIn}
-                          handleButtonLogo={handleButtonLogo}
+                          handlerButtonLogo={handlerButtonLogo}
                       />
                   }/>
 
                   <Route path='/movies' element={
-                      <>
-                          <ProtectedRoute
-                              loggedIn={loggedIn}
-                              component={HeaderResult}
-                              handleMenuIsActive={handleMenuIsActive}
-                              handleButtonLogo={handleButtonLogo}
-                              handleButtonSavedMovies={handleButtonSavedMovies}
-                              handleButtonMovies={handleButtonMovies}
-                              handleButtonProfile={handleButtonProfile}
-                          />
-                          <ProtectedRoute
-                              loggedIn={loggedIn}
-                              component={SearchForm}
-                              handleGetMovies={handleGetMovies}
-                              setIsShortFilm={setIsShortFilm}
-                              updateMovies={updateMovies}
-                          />
-    {/*                      <ProtectedRoute
-                              loggedIn={loggedIn}
-                              component={menuIsActive && Menu}
-                              handleMenuIsActive={handleMenuIsActive}
-                              handleButtonLogo={handleButtonLogo}
-                              handleButtonSavedMovies={handleButtonSavedMovies}
-                              handleButtonMovies={handleButtonMovies}
-                              handleButtonProfile={handleButtonProfile}
-                          />*/}
-                          <ProtectedRoute
-                              loggedIn={loggedIn}
-                              component={Movies}
-                              moviesCards={moviesCards}
-                              preloaderActive={preloaderActive}
-                              messageNothingFound={messageNothingFound}
-                              updateMovies={updateMovies}
-                              handlerSavedCard={handlerSavedCard}
-                          />
-                          <ProtectedRoute
-                              loggedIn={loggedIn}
-                              component={Footer}
-                          />
-                      </>
+                      <ProtectedRoute
+                          component={Movies}
+                          loggedIn={loggedIn}
+                          moviesCards={moviesCards}
+                          preloaderActive={preloaderActive}
+                          messageNothingFound={messageNothingFound}
+                          updateMovies={updateMovies}
+                          handlerSavedCard={handlerSavedCard}
+                          handlerMenuIsActive={handlerMenuIsActive}
+                          handlerButtonLogo={handlerButtonLogo}
+                          handlerButtonSavedMovies={handlerButtonSavedMovies}
+                          handlerButtonMovies={handlerButtonMovies}
+                          handlerButtonProfile={handlerButtonProfile}
+                          handleGetMovies={handleGetMovies}
+                          setIsShortFilm={setIsShortFilm}
+                      />
                   }/>
-    {/*              <Route path='/movies' element={
-                      <>
-                          <HeaderResult
-                              handleMenuIsActive={handleMenuIsActive}
-                              handleButtonLogo={handleButtonLogo}
-                              handleButtonSavedMovies={handleButtonSavedMovies}
-                              handleButtonMovies={handleButtonMovies}
-                              handleButtonProfile={handleButtonProfile}
-                          />
-                          <SearchForm
-                              handleGetMovies={handleGetMovies}
-                              setIsShortFilm={setIsShortFilm}
-                              updateMovies={updateMovies}
-                          />
-                          {menuIsActive && <Menu
-                              handleMenuIsActive={handleMenuIsActive}
-                              handleButtonLogo={handleButtonLogo}
-                              handleButtonSavedMovies={handleButtonSavedMovies}
-                              handleButtonMovies={handleButtonMovies}
-                              handleButtonProfile={handleButtonProfile}
-                          />}
-                          <Movies
-                              moviesCards={moviesCards}
-                              preloaderActive={preloaderActive}
-                              messageNothingFound={messageNothingFound}
-                              updateMovies={updateMovies}
-                              handlerSavedCard={handlerSavedCard}
-                          />
-                          <Footer />
-                      </>
-                  }/>*/}
-    {/*              <Route path='/saved-movies' element={
-                      <>
-                          <HeaderResult
-                              handleMenuIsActive={handleMenuIsActive}
-                              handleButtonLogo={handleButtonLogo}
-                              handleButtonSavedMovies={handleButtonSavedMovies}
-                              handleButtonMovies={handleButtonMovies}
-                              handleButtonProfile={handleButtonProfile}
-                          />
-                          <SearchForm />
-                          {menuIsActive && <Menu
-                              handleMenuIsActive={handleMenuIsActive}
-                              handleButtonLogo={handleButtonLogo}
-                              handleButtonSavedMovies={handleButtonSavedMovies}
-                              handleButtonMovies={handleButtonMovies}
-                              handleButtonProfile={handleButtonProfile}
-                          />}
-                          <SavedMovies />
-                          <Footer />
-                      </>
-                  }/>*/}
                   <Route path='/saved-movies' element={
-                      <>
-                          <ProtectedRoute
-                              loggedIn={loggedIn}
-                              component={HeaderResult}
-                              handleMenuIsActive={handleMenuIsActive}
-                              handleButtonLogo={handleButtonLogo}
-                              handleButtonSavedMovies={handleButtonSavedMovies}
-                              handleButtonMovies={handleButtonMovies}
-                              handleButtonProfile={handleButtonProfile}
-                          />
-                          <ProtectedRoute
-                              loggedIn={loggedIn}
-                              component={SearchForm}
-                          />
-    {/*                      <ProtectedRoute
-                            component={menuIsActive && Menu}
-                            handleMenuIsActive={handleMenuIsActive}
-                            handleButtonLogo={handleButtonLogo}
-                            handleButtonSavedMovies={handleButtonSavedMovies}
-                            handleButtonMovies={handleButtonMovies}
-                            handleButtonProfile={handleButtonProfile}
-                          />*/}
-                          <ProtectedRoute
-                              loggedIn={loggedIn}
-                              component={SavedMovies}
-                          />
-                          <ProtectedRoute
-                              loggedIn={loggedIn}
-                              component={Footer}
-                          />
-                      </>
+                      <ProtectedRoute
+                          loggedIn={loggedIn}
+                          component={SavedMovies}
+                          handlerMenuIsActive={handlerMenuIsActive}
+                          handlerButtonLogo={handlerButtonLogo}
+                          handlerButtonSavedMovies={handlerButtonSavedMovies}
+                          handlerButtonMovies={handlerButtonMovies}
+                          handlerButtonProfile={handlerButtonProfile}
+                      />
                   }/>
                   <Route path='/profile' element={
-                      <>
-                          <HeaderResult
-                              handleMenuIsActive={handleMenuIsActive}
-                              handleButtonLogo={handleButtonLogo}
-                              handleButtonSavedMovies={handleButtonSavedMovies}
-                              handleButtonMovies={handleButtonMovies}
-                              handleButtonProfile={handleButtonProfile}
-                          />
-                          {menuIsActive && <Menu
-                              handleMenuIsActive={handleMenuIsActive}
-                              handleButtonLogo={handleButtonLogo}
-                              handleButtonSavedMovies={handleButtonSavedMovies}
-                              handleButtonMovies={handleButtonMovies}
-                              handleButtonProfile={handleButtonProfile}
-                          />}
-                          <Profile handlerUserExit={handlerUserExit}/>
-                      </>
+                      <ProtectedRoute
+                          component={Profile}
+                          loggedIn={loggedIn}
+                          menuIsActive={menuIsActive}
+                          patchUserIsError={patchUserIsError}
+                          handlerPatchUser={handlerPatchUser}
+                          handlerUserExit={handlerUserExit}
+                          handlerMenuIsActive={handlerMenuIsActive}
+                          handlerButtonLogo={handlerButtonLogo}
+                          handlerButtonSavedMovies={handlerButtonSavedMovies}
+                          handlerButtonMovies={handlerButtonMovies}
+                          handlerButtonProfile={handlerButtonProfile}
+                      />
                   }/>
                   <Route path='*' element={
-                      <NotFound handleButtonLogo={handleButtonLogo}/>
+                      <NotFound handlerButtonLogo={handlerButtonLogo}/>
                   }/>
               </Routes>
               {/*<Main />*/}

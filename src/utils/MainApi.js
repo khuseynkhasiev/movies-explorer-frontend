@@ -26,6 +26,16 @@ const authorize = (email, password) => {
             return user;
         })
 }
+const patchUser = (email, name) => {
+    return fetch(`${BASE_URL}/users/me`, {
+        method: 'PATCH',
+        credentials: "include",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({email, name})
+    }).then((res) => getResponse(res))
+}
 const getProfileInfo = () => {
     return fetch(`${BASE_URL}/users/me`, {
         credentials: "include",
@@ -66,4 +76,4 @@ const savedCard = (country,
     }).then((res) => getResponse(res));
 }
 
-export { savedCard, register, authorize, getProfileInfo }
+export { savedCard, register, authorize, getProfileInfo, patchUser }

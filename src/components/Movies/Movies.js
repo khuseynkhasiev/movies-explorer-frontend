@@ -5,13 +5,21 @@ import {cards} from "../../constants";
 import Menu from "../Menu/Menu";
 import Preloader from "../Preloader/Preloader";
 import {useEffect, useState} from "react";
+import Footer from "../Footer/Footer";
 
 export default function Movies(props){
     const {
         preloaderActive,
         messageNothingFound,
         updateMovies,
-        handlerSavedCard
+        handlerSavedCard,
+        handlerMenuIsActive,
+        handlerButtonLogo,
+        handlerButtonSavedMovies,
+        handlerButtonMovies,
+        handlerButtonProfile,
+        handleGetMovies,
+        setIsShortFilm,
     } = props;
 
     const [moviesCards, setMoviesCards] = useState([]);
@@ -21,6 +29,16 @@ export default function Movies(props){
     },[updateMovies]);
     return (
         <>
+            <HeaderResult
+                handlerMenuIsActive={handlerMenuIsActive}
+                handlerButtonLogo={handlerButtonLogo}
+                handlerButtonSavedMovies={handlerButtonSavedMovies}
+                handlerButtonMovies={handlerButtonMovies}
+                handlerButtonProfile={handlerButtonProfile}/>
+            <SearchForm
+                handleGetMovies={handleGetMovies}
+                setIsShortFilm={setIsShortFilm}
+                updateMovies={updateMovies}/>
             {preloaderActive ?
                 <Preloader /> :
                 <section className='movies'>
@@ -31,6 +49,7 @@ export default function Movies(props){
                     />
                 </section>
             }
+            <Footer />
         </>
     )
 }
