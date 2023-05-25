@@ -29,9 +29,6 @@
     margin: 0 0 16px;
     align-items: center;
 }
-.profile__block:last-of-type{
-    margin: 0 0 100px;
-}
 .profile__text{
     font-family: 'Inter', 'Arial', 'sans-serif';
     font-style: normal;
@@ -131,7 +128,6 @@
     margin: 6px 0 6px;
     visibility: hidden;
     display: block;
-    text-align: center;
 }
 .profile__input-error_visible{
     visibility: visible;

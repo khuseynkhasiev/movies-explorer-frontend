@@ -3,6 +3,7 @@ import {useContext, useEffect, useState} from "react";
 import CurrentUserContext from "../../contexts/CurrentUserContext";
 import HeaderResult from "../HeaderResult/HeaderResult";
 import Menu from  "../Menu/Menu";
+import InfoTooltip from "../InfoTooltip/InfoTooltip";
 export default function Profile(props){
     const {
         handlerUserExit,
@@ -13,7 +14,9 @@ export default function Profile(props){
         handlerButtonProfile,
         menuIsActive,
         handlerPatchUser,
-        patchUserIsError
+        onClose,
+        infoToolTip,
+        patchUserIsError,
     } = props;
     const currentUser = useContext(CurrentUserContext);
 
@@ -25,7 +28,6 @@ export default function Profile(props){
     const [emailError, setEmailError] = useState('Email не может быть пустым');
     const [nameError, setNameError] = useState('Имя не может быть пустым');
     const [formValid, setFormValid] = useState(false);
-    const [titleName, setTitleName] = useState(currentUser.name);
 
     useEffect(() => {
         if(email.length===0 || name.length===0){
@@ -38,7 +40,7 @@ export default function Profile(props){
         } else {
             setFormValid(true);
         }
-    }, [emailOnError, nameOnError, name, email])
+    }, [emailOnError, nameOnError, name, email, patchUserIsError, formValid, currentUser])
 
     const emailHandler = (e) => {
         setEmail(e.target.value);
@@ -86,11 +88,10 @@ export default function Profile(props){
     }
     const handlerOffEditForm = (e) => {
         e.preventDefault();
-        handlerPatchUser({email, name})
-        setOnEditForm(false);
-        setTitleName(name);
+        setFormValid(false);
+        handlerPatchUser({email, name});
+        setOnEditForm(true);
     }
-
     return (
         <>
             <HeaderResult
@@ -107,9 +108,12 @@ export default function Profile(props){
                 handlerButtonMovies={handlerButtonMovies}
                 handlerButtonProfile={handlerButtonProfile}
             />}
+            <InfoTooltip
+                onClose={onClose}
+                infoToolTip={infoToolTip}/>
             <div className='profile'>
                 <form className='profile__form'>
-                    <h3 className='profile__title'>Привет, {titleName}!</h3>
+                    <h3 className='profile__title'>Привет, {name}!</h3>
                     <div className='profile__block'>
                         <label className='profile__text' htmlFor='profile-name'>Имя</label>
                         <input
@@ -122,13 +126,13 @@ export default function Profile(props){
                             id='profile-name'
                             disabled={!onEditForm}
                             placeholder='Имя'
-                            required
-                        >
+                            required>
                         </input>
                     </div>
-{/*
-                    <span className={`profile__input-error ${nameOnError && 'profile__input-error_visible'}`}>{nameError}</span>
-*/}
+                    <span
+                        className={`profile__input-error ${nameOnError && 'profile__input-error_visible'}`}>
+                                {nameError}
+                            </span>
                     <div className='profile__line'></div>
                     <div className='profile__block'>
                         <label className='profile__text' htmlFor='profile-email'>E-mail</label>
@@ -142,26 +146,22 @@ export default function Profile(props){
                             id='profile-email'
                             disabled={!onEditForm}
                             placeholder='E-mail'
-                            required
-                        >
+                            required>
                         </input>
                     </div>
-{/*
-                    <span className={`profile__input-error ${emailOnError && 'profile__input-error_visible'}`}>{emailError}</span>
-*/}
+                    <span
+                        className={`profile__input-error ${emailOnError && 'profile__input-error_visible'}`}>
+                                {emailError}
+                    </span>
                     {onEditForm ? (
                         <>
                             <span
-                                className={`profile__input-error ${nameOnError && 'profile__input-error_visible'}`}>
-                                {nameError}
-                            </span>
-                            <span
-                                className={`profile__input-error ${emailOnError && 'profile__input-error_visible'}`}>
-                                {emailError}
+                                className={`profile__input-error ${patchUserIsError && 'profile__input-error_visible'}`}>
+                                    При обновлении профиля произошла ошибка.
                             </span>
                             <button
                                 className={`profile__submit-btn ${formValid && 'profile__submit-btn_active'}`}
-                                type='submit'
+                                type='button'
                                 onClick={handlerOffEditForm}
                                 disabled={!formValid}>
                                 Сохранить
@@ -184,8 +184,8 @@ export default function Profile(props){
                                 Выйти из аккаунта
                             </button>
                         </>
-                    ) }
-                    </form>
+                    )}
+                </form>
             </div>
         </>
     )

@@ -33,6 +33,7 @@ function App() {
     const [updateMovies, setUpdateMovies] = useState(false);
     const [loggedIn, setLoggedIn] = useState(false);
     const [patchUserIsError, setPatchUserIsError] = useState(false);
+    const [infoToolTip, setInfoToolTip] = useState(false);
 
     useEffect(() => {
         checkToken();
@@ -97,10 +98,9 @@ function App() {
                 if(res) {
                     navigate("/movies", {replace: true});
                     setLoggedIn(true);
-                    setPatchUserIsError(false);
                 }
             })
-            .catch((err) => setPatchUserIsError(true))
+            .catch((err) => console.log(err))
     }
     function handlerUserExit(){
         setLoggedIn(false);
@@ -110,8 +110,13 @@ function App() {
     function handlerPatchUser({email, name}) {
         return mainApi.patchUser(email, name)
             .then((user) => {
-                setCurrentUser(user)
-            }).catch((err) => console.log(`Ошибка: ${err}`))
+                setPatchUserIsError(false);
+                setInfoToolTip(true);
+                setCurrentUser(user);
+            }).catch((err) => {
+                setInfoToolTip(false);
+                setPatchUserIsError(true);
+            })
     }
     function handlerSavedCard({ country,
                                  director,
@@ -163,6 +168,9 @@ function App() {
         } else {
             setMenuIsActive(true);
         }
+    }
+    function closeInfoTooltip(){
+        setInfoToolTip(false);
     }
   return (
       <CurrentUserContext.Provider value={currentUser}>
@@ -227,6 +235,8 @@ function App() {
                           component={Profile}
                           loggedIn={loggedIn}
                           menuIsActive={menuIsActive}
+                          onClose={closeInfoTooltip}
+                          infoToolTip={infoToolTip}
                           patchUserIsError={patchUserIsError}
                           handlerPatchUser={handlerPatchUser}
                           handlerUserExit={handlerUserExit}
