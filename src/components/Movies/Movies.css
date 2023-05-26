@@ -1,7 +1,7 @@
-.saved-movies{
-    background: #202020;
+.movies{
     height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    background: #202020;
 }

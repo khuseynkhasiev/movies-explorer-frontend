@@ -13,20 +13,19 @@ export default function SavedMovies(props){
         handlerButtonProfile,
     } = props;
     return (
-        <>
-            <HeaderResult
-                handlerMenuIsActive={handlerMenuIsActive}
-                handlerButtonLogo={handlerButtonLogo}
-                handlerButtonSavedMovies={handlerButtonSavedMovies}
-                handlerButtonMovies={handlerButtonMovies}
-                handlerButtonProfile={handlerButtonProfile}
-            />
-            <SearchForm />
-            <section className='saved-movies'>
+        <div className='saved-movies'>
+            <div className='saved-movies__container'>
+                <HeaderResult
+                    handlerMenuIsActive={handlerMenuIsActive}
+                    handlerButtonLogo={handlerButtonLogo}
+                    handlerButtonSavedMovies={handlerButtonSavedMovies}
+                    handlerButtonMovies={handlerButtonMovies}
+                    handlerButtonProfile={handlerButtonProfile}
+                />
+                <SearchForm />
                 <MoviesCardList cards={savedCards} />
-            </section>
+            </div>
             <Footer />
-        </>
-
+        </div>
     )
 }

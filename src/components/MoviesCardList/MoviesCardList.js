@@ -5,8 +5,8 @@ import MoviesCard from "../MoviesCard/MoviesCard";
 export default function MoviesCardList(props){
     const {
         cards,
-        messageNothingFound,
-        handlerSavedCard
+        handlerSavedCard,
+        getMoviesIsError,
     } = props;
     const [newCardsList, setNewCardsList] = useState([])
     const [windowWidth, setWindowWidth] = useState();
@@ -79,7 +79,9 @@ export default function MoviesCardList(props){
         <section className='movies-card-list'>
             <div className='movies-card-list__container'>
                 {newCardsList.length === 0 ?
-                    <p className='movies-card-list__nothing-found-text'>{messageNothingFound}</p>
+                    (getMoviesIsError ?
+                        <p className='movies-card-list__nothing-found-text'>Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз</p> :
+                        <p className='movies-card-list__nothing-found-text'>Ничего не найдено</p>)
                     :
                     <ul className='movies-card-list__elements'>
                         {

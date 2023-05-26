@@ -26,14 +26,12 @@ function App() {
     const [currentUser, setCurrentUser] = useState({});
     const [menuIsActive, setMenuIsActive] = useState(false);
     const [isShortFilm, setIsShortFilm] = useState(false);
-    const [moviesCards, setMoviesCards] = useState([]);
-    /*const [requestName, setRequestName] = useState('');*/
-    const [messageNothingFound, setMessageNothingFound] = useState('');
     const [preloaderActive, setPreloaderActive] = useState(false);
     const [updateMovies, setUpdateMovies] = useState(false);
     const [loggedIn, setLoggedIn] = useState(false);
     const [patchUserIsError, setPatchUserIsError] = useState(false);
     const [infoToolTip, setInfoToolTip] = useState(false);
+    const [getMoviesIsError, setGetMoviesIsError] = useState(false);
 
     useEffect(() => {
         checkToken();
@@ -57,18 +55,12 @@ function App() {
         moviesApi.getMovies(name)
             .then((data) => {
                 setUpdateMovies(!updateMovies);
-                /*setMoviesCards(getMoviesFilter(name, data))*/
                 handleSaveLocalStorage(name, data);
                 setPreloaderActive(false);
-/*                if (moviesCards.length === 0) {
-                    setMessageNothingFound('Ничего не найдено')
-                } else {
-                    setMessageNothingFound('');
-                }*/
-            })
-            .catch((err) => {
+                setGetMoviesIsError(false);
+            }).catch((err) => {
                 setPreloaderActive(false);
-                setMessageNothingFound(err);
+                setGetMoviesIsError(true);
                 console.log(err)
             })
 
@@ -205,10 +197,9 @@ function App() {
                       <ProtectedRoute
                           component={Movies}
                           loggedIn={loggedIn}
-                          moviesCards={moviesCards}
                           preloaderActive={preloaderActive}
-                          messageNothingFound={messageNothingFound}
                           updateMovies={updateMovies}
+                          getMoviesIsError={getMoviesIsError}
                           handlerSavedCard={handlerSavedCard}
                           handlerMenuIsActive={handlerMenuIsActive}
                           handlerButtonLogo={handlerButtonLogo}

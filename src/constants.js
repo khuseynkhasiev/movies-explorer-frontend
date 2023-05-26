@@ -130,7 +130,7 @@ const cards = [
     },
 ]
 const savedCards = [
-    {
+/*    {
         name: '33 слова о дизайне',
         image: movie1,
         time: '1ч 42м',
@@ -150,6 +150,6 @@ const savedCards = [
         time: '1ч 42м',
         isLike: false,
         _id: '3',
-    },
+    },*/
 ]
 export {cards, savedCards};
