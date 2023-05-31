@@ -44,19 +44,29 @@ const getProfileInfo = () => {
         },
     }).then((res) => getResponse(res))
 }
-const savedCard = (country,
-                   director,
-                   duration,
-                   year,
-                   description,
-                   image,
-                   nameRU,
-                   nameEN,
-                   thumbnail,
-                   trailerLink,
-                   movieId,) => {
+const getSavedCards = () => {
+    return fetch(`${BASE_URL}/movies`, {
+        credentials: "include",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    }).then((res) => getResponse(res))
+}
+const postSavedCard = ({
+                       country,
+                       director,
+                       duration,
+                       year,
+                       description,
+                       image,
+                       nameRU,
+                       nameEN,
+                       trailerLink,
+                       id,
+}) => {
     return fetch(`${BASE_URL}/movies`, {
         method: 'POST',
+        credentials: "include",
         headers: {
             "Content-Type": "application/json"
         },
@@ -66,14 +76,14 @@ const savedCard = (country,
             duration,
             year,
             description,
-            image,
+            image: `https://api.nomoreparties.co${image.url}`,
             nameRU,
             nameEN,
-            thumbnail,
+            thumbnail: `https://api.nomoreparties.co${image.formats.thumbnail.url}`,
             trailerLink,
-            movieId,
+            id,
         })
     }).then((res) => getResponse(res));
 }
 
-export { savedCard, register, authorize, getProfileInfo, patchUser }
+export { postSavedCard, register, authorize, getProfileInfo, patchUser, getSavedCards }

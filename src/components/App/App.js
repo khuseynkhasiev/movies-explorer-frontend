@@ -20,6 +20,7 @@ import Menu from "../Menu/Menu";
 import * as moviesApi from "../../utils/MoviesApi";
 import * as mainApi from "../../utils/MainApi";
 import CurrentUserContext from "../../contexts/CurrentUserContext";
+import {getSavedCards} from "../../utils/MainApi";
 
 function App() {
     const navigate = useNavigate();
@@ -32,9 +33,12 @@ function App() {
     const [patchUserIsError, setPatchUserIsError] = useState(false);
     const [infoToolTip, setInfoToolTip] = useState(false);
     const [getMoviesIsError, setGetMoviesIsError] = useState(false);
+    const [savedUserCards, setSavedUserCards] = useState([]);
+    const [isOnId, setIsOnId] = useState();
 
     useEffect(() => {
         checkToken();
+        handlerGetSavedCards();
         if(loggedIn){
             mainApi.getProfileInfo()
                 .then((data) => {
@@ -42,7 +46,7 @@ function App() {
                 })
                 .catch((err) => console.log(err))
         }
-    }, [loggedIn])
+    }, [loggedIn, isOnId])
     function checkToken(){
         const token = localStorage.getItem('userId')
         if(token){
@@ -55,7 +59,7 @@ function App() {
         moviesApi.getMovies(name)
             .then((data) => {
                 setUpdateMovies(!updateMovies);
-                handleSaveLocalStorage(name, data);
+                handlerSaveLocalStorage(name, data);
                 setPreloaderActive(false);
                 setGetMoviesIsError(false);
             }).catch((err) => {
@@ -63,9 +67,13 @@ function App() {
                 setGetMoviesIsError(true);
                 console.log(err)
             })
-
     }
-    function handleSaveLocalStorage(name, data){
+/*    function handlerIsLikeCard(data){
+        return data.filter((card) => card.name === savedUserCards.name){
+            return {card..., isLike: true,};
+        }
+    }*/
+    function handlerSaveLocalStorage(name, data){
         localStorage.setItem('requestName', name);
         localStorage.setItem('isShortFilm', JSON.stringify(isShortFilm));
         localStorage.setItem('movies', JSON.stringify(getMoviesFilter(name, data)));
@@ -75,7 +83,6 @@ function App() {
             return movie.nameRU.toLowerCase().indexOf(name.toLowerCase()) !== -1 || movie.nameEN.toLowerCase().indexOf(name.toLowerCase()) !== -1;
         })
     }
-
     function handleRegister({name, email, password}){
         return mainApi.register(name, email, password)
             .then((data) => {
@@ -110,31 +117,24 @@ function App() {
                 setPatchUserIsError(true);
             })
     }
-    function handlerSavedCard({ country,
-                                 director,
-                                 duration,
-                                 year,
-                                 description,
-                                 image,
-                                 nameRU,
-                                 nameEN,
-                                 trailerLink,
-                                 id,
-                             }){
-        mainApi.savedCard({
-            country,
-            director,
-            duration,
-            year,
-            description,
-            image,
-            nameRU,
-            nameEN,
-            trailerLink,
-            id,
-        }).then((data) => {
-            console.log(data);
-        })
+    function handlerGetSavedCards(){
+        mainApi.getSavedCards()
+            .then((cards) => {
+                setSavedUserCards(cards);
+                console.log(cards);
+            })
+            .catch((err) => console.log(err))
+    }
+    function handlerPostSavedCard(card){
+        const isLiked = savedUserCards.some(i => i.id === card.id);
+        console.log(isLiked);
+        setIsOnId(isLiked);
+        if(!isLiked){
+            mainApi.postSavedCard(card)
+                .then((data) => {
+                })
+                .catch((err) => console.log(err))
+        }
     }
     function handleButtonSignIn() {
         navigate("/signin");
@@ -200,7 +200,7 @@ function App() {
                           preloaderActive={preloaderActive}
                           updateMovies={updateMovies}
                           getMoviesIsError={getMoviesIsError}
-                          handlerSavedCard={handlerSavedCard}
+                          handlerPostSavedCard={handlerPostSavedCard}
                           handlerMenuIsActive={handlerMenuIsActive}
                           handlerButtonLogo={handlerButtonLogo}
                           handlerButtonSavedMovies={handlerButtonSavedMovies}
@@ -208,6 +208,7 @@ function App() {
                           handlerButtonProfile={handlerButtonProfile}
                           handleGetMovies={handleGetMovies}
                           setIsShortFilm={setIsShortFilm}
+                          savedUserCards={savedUserCards}
                       />
                   }/>
                   <Route path='/saved-movies' element={
@@ -219,6 +220,7 @@ function App() {
                           handlerButtonSavedMovies={handlerButtonSavedMovies}
                           handlerButtonMovies={handlerButtonMovies}
                           handlerButtonProfile={handlerButtonProfile}
+                          savedUserCards={savedUserCards}
                       />
                   }/>
                   <Route path='/profile' element={

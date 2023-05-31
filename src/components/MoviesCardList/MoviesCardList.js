@@ -5,18 +5,24 @@ import MoviesCard from "../MoviesCard/MoviesCard";
 export default function MoviesCardList(props){
     const {
         cards,
-        handlerSavedCard,
+        handlerPostSavedCard,
         getMoviesIsError,
     } = props;
     const [newCardsList, setNewCardsList] = useState([])
     const [windowWidth, setWindowWidth] = useState();
     const [isVisibleBtn, setIsVisibleBtn] = useState(false);
-
     const [numberEndResize1280, setNumberSize1280] = useState(20);
     const [numberEndResize1024, setNumberSize1024] = useState(12);
     const [numberEndResize650, setNumberSize650] = useState(10);
     const [numberEndResize320, setNumberSize320] = useState(6);
 
+    useEffect(() => {
+        window.addEventListener('resize', handlerResize);
+        handlerResize();
+        return () => {
+            window.removeEventListener('resize', handlerResize);
+        }
+    }, [windowWidth, cards]);
     function handleIncrementBtnMovies(){
         if (windowWidth > 1279){
             setNumberSize1280(numberEndResize1280+4);
@@ -39,30 +45,21 @@ export default function MoviesCardList(props){
             handleVisibleBtn(cards.length, numberEndResize320);
         }
     }
-
-    useEffect(() => {
-        window.addEventListener('resize', handlerResize);
-        handlerResize();
-        return () => {
-            window.removeEventListener('resize', handlerResize);
-        }
-    }, [windowWidth, cards]);
-
     function handlerResize(){
         setWindowWidth(window.innerWidth);
-        if (windowWidth > 1279) {
+        if (windowWidth > 1279 & cards !== null) {
             setNewCardsList(cards.slice(0,16));
             handleVisibleBtn(cards.length, newCardsList.length);
         }
-        else if (windowWidth < 1280 & windowWidth > 1023) {
+        else if (windowWidth < 1280 & windowWidth > 1023 & cards !== null) {
             setNewCardsList(cards.slice(0,9));
             handleVisibleBtn(cards.length, newCardsList.length);
         }
-        else if (windowWidth < 1024 & windowWidth > 649) {
+        else if (windowWidth < 1024 & windowWidth > 649 & cards !== null) {
             setNewCardsList(cards.slice(0,8));
             handleVisibleBtn(cards.length, newCardsList.length);
         }
-        else if (windowWidth < 650 & windowWidth > 319) {
+        else if (windowWidth < 650 & windowWidth > 319 & cards !== null) {
             setNewCardsList(cards.slice(0,5));
             handleVisibleBtn(cards.length, newCardsList.length);
         }
@@ -89,7 +86,7 @@ export default function MoviesCardList(props){
                             return <MoviesCard
                                 card={card}
                                 key={card.id}
-                                handlerSavedCard={handlerSavedCard}/>
+                                handlerPostSavedCard={handlerPostSavedCard}/>
                             })
                         }
                     </ul>

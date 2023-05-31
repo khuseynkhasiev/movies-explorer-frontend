@@ -11,6 +11,7 @@ export default function SavedMovies(props){
         handlerButtonSavedMovies,
         handlerButtonMovies,
         handlerButtonProfile,
+        savedUserCards
     } = props;
     return (
         <div className='saved-movies'>
@@ -23,7 +24,9 @@ export default function SavedMovies(props){
                     handlerButtonProfile={handlerButtonProfile}
                 />
                 <SearchForm />
-                <MoviesCardList cards={savedCards} />
+                <MoviesCardList
+                    cards={savedUserCards}
+                />
             </div>
             <Footer />
         </div>

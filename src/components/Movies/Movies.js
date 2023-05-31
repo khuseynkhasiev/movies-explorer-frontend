@@ -12,7 +12,7 @@ export default function Movies(props){
     const {
         preloaderActive,
         updateMovies,
-        handlerSavedCard,
+        handlerPostSavedCard,
         handlerMenuIsActive,
         handlerButtonLogo,
         handlerButtonSavedMovies,
@@ -21,6 +21,7 @@ export default function Movies(props){
         handleGetMovies,
         setIsShortFilm,
         getMoviesIsError,
+        savedUserCards,
     } = props;
 
     const [moviesCards, setMoviesCards] = useState([]);
@@ -46,7 +47,8 @@ export default function Movies(props){
                     <MoviesCardList
                         cards={moviesCards}
                         getMoviesIsError={getMoviesIsError}
-                        handlerSavedCard={handlerSavedCard}
+                        handlerPostSavedCard={handlerPostSavedCard}
+                        savedUserCards={savedUserCards}
                     />
                 }
             </div>
