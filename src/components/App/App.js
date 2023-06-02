@@ -34,19 +34,19 @@ function App() {
     const [infoToolTip, setInfoToolTip] = useState(false);
     const [getMoviesIsError, setGetMoviesIsError] = useState(false);
     const [savedUserCards, setSavedUserCards] = useState([]);
-    const [isOnId, setIsOnId] = useState();
+    const [cards, setCards] = useState([]);
 
     useEffect(() => {
         checkToken();
-        handlerGetSavedCards();
         if(loggedIn){
-            mainApi.getProfileInfo()
-                .then((data) => {
-                    setCurrentUser(data);
+            Promise.all([mainApi.getProfileInfo(), mainApi.getSavedCards()])
+                .then(([user, savedMovies]) => {
+                    setCurrentUser(user);
+                    setSavedUserCards(savedMovies || []);
                 })
                 .catch((err) => console.log(err))
         }
-    }, [loggedIn, isOnId])
+    }, [loggedIn])
     function checkToken(){
         const token = localStorage.getItem('userId')
         if(token){
@@ -59,25 +59,27 @@ function App() {
         moviesApi.getMovies(name)
             .then((data) => {
                 setUpdateMovies(!updateMovies);
-                handlerSaveLocalStorage(name, data);
-                setPreloaderActive(false);
+                /*handlerSaveLocalStorage(name, data);*/
+                setCards(getMoviesFilter(name, data)); //test
+
+                handlerSaveLocalStorage(name);
                 setGetMoviesIsError(false);
             }).catch((err) => {
-                setPreloaderActive(false);
                 setGetMoviesIsError(true);
                 console.log(err)
-            })
+            }).finally(() => {
+                setPreloaderActive(false);
+        })
     }
-/*    function handlerIsLikeCard(data){
-        return data.filter((card) => card.name === savedUserCards.name){
-            return {card..., isLike: true,};
-        }
-    }*/
-    function handlerSaveLocalStorage(name, data){
+    function handlerSaveLocalStorage(name){
+        localStorage.setItem('requestName', name);
+        localStorage.setItem('isShortFilm', JSON.stringify(isShortFilm));
+    }
+/*    function handlerSaveLocalStorage(name, data){
         localStorage.setItem('requestName', name);
         localStorage.setItem('isShortFilm', JSON.stringify(isShortFilm));
         localStorage.setItem('movies', JSON.stringify(getMoviesFilter(name, data)));
-    }
+    }*/
     function getMoviesFilter(name, data){
         return data.filter((movie) => {
             return movie.nameRU.toLowerCase().indexOf(name.toLowerCase()) !== -1 || movie.nameEN.toLowerCase().indexOf(name.toLowerCase()) !== -1;
@@ -103,7 +105,7 @@ function App() {
     }
     function handlerUserExit(){
         setLoggedIn(false);
-        localStorage.removeItem('userId');
+        localStorage.clear();
         navigate("/");
     }
     function handlerPatchUser({email, name}) {
@@ -117,24 +119,18 @@ function App() {
                 setPatchUserIsError(true);
             })
     }
-    function handlerGetSavedCards(){
-        mainApi.getSavedCards()
-            .then((cards) => {
-                setSavedUserCards(cards);
-                console.log(cards);
+
+    function handlerPostSavedCard(card){
+        mainApi.postSavedCard(card)
+            .then((card) => {
+                setSavedUserCards([...savedUserCards, card])
             })
             .catch((err) => console.log(err))
     }
-    function handlerPostSavedCard(card){
-        const isLiked = savedUserCards.some(i => i.id === card.id);
-        console.log(isLiked);
-        setIsOnId(isLiked);
-        if(!isLiked){
-            mainApi.postSavedCard(card)
-                .then((data) => {
-                })
-                .catch((err) => console.log(err))
-        }
+    function handlerDeleteSavedCard(card){
+        mainApi.deleteSavedCard(card.id)
+            .then(setSavedUserCards(state => state.filter(item => item.id === card.id ? null : card)))
+            .catch((err) => console.log(err))
     }
     function handleButtonSignIn() {
         navigate("/signin");
@@ -165,7 +161,7 @@ function App() {
         setInfoToolTip(false);
     }
   return (
-      <CurrentUserContext.Provider value={currentUser}>
+      <CurrentUserContext.Provider value={{currentUser, savedUserCards, setSavedUserCards}}>
           <div className='page'>
               <Routes>
                   <Route path='/' element={
@@ -208,7 +204,8 @@ function App() {
                           handlerButtonProfile={handlerButtonProfile}
                           handleGetMovies={handleGetMovies}
                           setIsShortFilm={setIsShortFilm}
-                          savedUserCards={savedUserCards}
+                          cards={cards}
+                          handlerDeleteSavedCard={handlerDeleteSavedCard}
                       />
                   }/>
                   <Route path='/saved-movies' element={
@@ -220,7 +217,6 @@ function App() {
                           handlerButtonSavedMovies={handlerButtonSavedMovies}
                           handlerButtonMovies={handlerButtonMovies}
                           handlerButtonProfile={handlerButtonProfile}
-                          savedUserCards={savedUserCards}
                       />
                   }/>
                   <Route path='/profile' element={

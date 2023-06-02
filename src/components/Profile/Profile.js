@@ -18,7 +18,7 @@ export default function Profile(props){
         infoToolTip,
         patchUserIsError,
     } = props;
-    const currentUser = useContext(CurrentUserContext);
+    const {currentUser} = useContext(CurrentUserContext);
 
     const [name, setName] = useState(currentUser.name);
     const [email, setEmail] = useState(currentUser.email);

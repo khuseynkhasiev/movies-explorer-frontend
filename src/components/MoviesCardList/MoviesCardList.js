@@ -7,6 +7,7 @@ export default function MoviesCardList(props){
         cards,
         handlerPostSavedCard,
         getMoviesIsError,
+        handlerDeleteSavedCard,
     } = props;
     const [newCardsList, setNewCardsList] = useState([])
     const [windowWidth, setWindowWidth] = useState();
@@ -86,7 +87,9 @@ export default function MoviesCardList(props){
                             return <MoviesCard
                                 card={card}
                                 key={card.id}
-                                handlerPostSavedCard={handlerPostSavedCard}/>
+                                handlerPostSavedCard={handlerPostSavedCard}
+                                handlerDeleteSavedCard={handlerDeleteSavedCard}
+                            />
                             })
                         }
                     </ul>

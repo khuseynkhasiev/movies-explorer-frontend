@@ -4,6 +4,8 @@ import './SavedMovies.css';
 import HeaderResult from "../HeaderResult/HeaderResult";
 import SearchForm from "../SearchForm/SearchForm";
 import Footer from "../Footer/Footer";
+import {useContext} from "react";
+import CurrentUserContext from "../../contexts/CurrentUserContext";
 export default function SavedMovies(props){
     const {
         handlerMenuIsActive,
@@ -11,8 +13,8 @@ export default function SavedMovies(props){
         handlerButtonSavedMovies,
         handlerButtonMovies,
         handlerButtonProfile,
-        savedUserCards
     } = props;
+    const {savedUserCards} = useContext(CurrentUserContext);
     return (
         <div className='saved-movies'>
             <div className='saved-movies__container'>

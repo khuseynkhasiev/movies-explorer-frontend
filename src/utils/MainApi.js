@@ -85,5 +85,15 @@ const postSavedCard = ({
         })
     }).then((res) => getResponse(res));
 }
+const deleteSavedCard = (movieId) => {
+    return fetch(`${BASE_URL}/movies`, {
+        method: 'DELETE',
+        credentials: "include",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({movieId})
+    }).then((res) => getResponse(res));
+}
 
-export { postSavedCard, register, authorize, getProfileInfo, patchUser, getSavedCards }
+export { postSavedCard, register, authorize, getProfileInfo, patchUser, getSavedCards, deleteSavedCard }
