@@ -103,10 +103,12 @@ function App() {
             })
             .catch((err) => console.log(err))
     }
+
+    // функция которая вызывается при клике пользователя на кнопку ВЫХОД
     function handlerUserExit(){
-        setLoggedIn(false);
         localStorage.clear();
-        navigate("/");
+        setLoggedIn(false);
+        return mainApi.signout();
     }
     function handlerPatchUser({email, name}) {
         return mainApi.patchUser(email, name)

@@ -10,7 +10,18 @@ const register = (name, email, password) => {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({name, email, password})
-    }).then(getResponse);
+    }).then((res) => getResponse(res));
+}
+// пост запрос к беку для удаления куки
+const signout = () => {
+    console.log('запрос удаления куки c фронта');
+    return fetch(`${BASE_URL}/signout`, {
+        method: 'POST',
+        credentials: "include",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    }).then((res) => getResponse(res));
 }
 const authorize = (email, password) => {
     return fetch(`${BASE_URL}/signin`, {
@@ -96,4 +107,4 @@ const deleteSavedCard = (movieId) => {
     }).then((res) => getResponse(res));
 }
 
-export { postSavedCard, register, authorize, getProfileInfo, patchUser, getSavedCards, deleteSavedCard }
+export { postSavedCard, register, authorize, getProfileInfo, patchUser, getSavedCards, deleteSavedCard, signout }
