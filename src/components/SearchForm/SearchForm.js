@@ -4,8 +4,8 @@ import {useEffect, useState} from "react";
 export default function SearchForm(props){
     const {
         handleGetMovies,
-        setIsShortFilm,
-        updateMovies
+        updateMovies,
+        handlerIsShortFilms,
     } = props;
 
     const [movieName, setMovieName] = useState('');
@@ -33,7 +33,10 @@ export default function SearchForm(props){
                                placeholder='Фильм' value={movieName} required/>
                         <button className='search-form__submit' type='submit' />
                     </div>
-                    <FilterCheckbox setIsShortFilm={setIsShortFilm} updateMovies={updateMovies}/>
+                    <FilterCheckbox
+                        updateMovies={updateMovies}
+                        handlerIsShortFilms={handlerIsShortFilms}
+                    />
                 </form>
                 <div className='search-form__line'></div>
             </div>

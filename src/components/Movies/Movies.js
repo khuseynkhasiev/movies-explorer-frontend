@@ -19,17 +19,17 @@ export default function Movies(props){
         handlerButtonMovies,
         handlerButtonProfile,
         handleGetMovies,
-        setIsShortFilm,
         getMoviesIsError,
         cards,
         handlerDeleteSavedCard,
+        handlerIsShortFilms,
     } = props;
 
-/*    const [moviesCards, setMoviesCards] = useState([]);
+    const [moviesCards, setMoviesCards] = useState([]);
 
     useEffect(()=>{
         setMoviesCards(JSON.parse(localStorage.getItem('movies')));
-    },[updateMovies]);*/
+    },[updateMovies]);
     return (
         <div className='movies'>
             <div className='movies__container'>
@@ -41,13 +41,14 @@ export default function Movies(props){
                     handlerButtonProfile={handlerButtonProfile}/>
                 <SearchForm
                     handleGetMovies={handleGetMovies}
-                    setIsShortFilm={setIsShortFilm}
-                    updateMovies={updateMovies}/>
+                    updateMovies={updateMovies}
+                    handlerIsShortFilms={handlerIsShortFilms}
+                />
                 {preloaderActive ?
                     <Preloader /> :
                     <MoviesCardList
-                        /*cards={moviesCards}*/
-                        cards={cards}
+                        cards={moviesCards}
+                        /*cards={cards}*/
                         handlerDeleteSavedCard={handlerDeleteSavedCard}
 
                         getMoviesIsError={getMoviesIsError}

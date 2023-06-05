@@ -2,8 +2,8 @@ import './FilterCheckbox.css';
 import {useEffect, useState} from "react";
 export default function FilterCheckbox(props){
     const {
-        setIsShortFilm,
-        updateMovies
+        updateMovies,
+        handlerIsShortFilms,
     } = props
 
     const [checked, setChecked] = useState(false);
@@ -13,11 +13,12 @@ export default function FilterCheckbox(props){
     const handleCheckedShortFilm = () => {
         setChecked(!checked);
         if(checked) {
-            setIsShortFilm(false);
+            localStorage.setItem('isShortFilm', false);
+            handlerIsShortFilms();
         } else {
-            setIsShortFilm(true);
+            localStorage.setItem('isShortFilm', true);
+            handlerIsShortFilms();
         }
-        console.log(checked);
     }
     return (
         <div className='filter-checkbox'>

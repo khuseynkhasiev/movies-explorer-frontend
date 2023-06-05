@@ -26,7 +26,6 @@ function App() {
     const navigate = useNavigate();
     const [currentUser, setCurrentUser] = useState({});
     const [menuIsActive, setMenuIsActive] = useState(false);
-    const [isShortFilm, setIsShortFilm] = useState(false);
     const [preloaderActive, setPreloaderActive] = useState(false);
     const [updateMovies, setUpdateMovies] = useState(false);
     const [loggedIn, setLoggedIn] = useState(false);
@@ -46,6 +45,10 @@ function App() {
                 })
                 .catch((err) => console.log(err))
         }
+        localStorage.setItem('isShortFilm', false);
+/*        if(localStorage.getItem('movies')){
+            setCards(localStorage.getItem('movies'));
+        }*/
     }, [loggedIn])
     function checkToken(){
         const token = localStorage.getItem('userId')
@@ -59,11 +62,11 @@ function App() {
         moviesApi.getMovies(name)
             .then((data) => {
                 setUpdateMovies(!updateMovies);
-                /*handlerSaveLocalStorage(name, data);*/
-                setCards(getMoviesFilter(name, data)); //test
-
-                handlerSaveLocalStorage(name);
+                setCards(getMoviesFilter(name, data));
                 setGetMoviesIsError(false);
+                localStorage.setItem('movies', JSON.stringify(getMoviesFilter(name, data)));
+                localStorage.setItem('requestName', name);
+
             }).catch((err) => {
                 setGetMoviesIsError(true);
                 console.log(err)
@@ -71,10 +74,12 @@ function App() {
                 setPreloaderActive(false);
         })
     }
-    function handlerSaveLocalStorage(name){
-        localStorage.setItem('requestName', name);
-        localStorage.setItem('isShortFilm', JSON.stringify(isShortFilm));
+    function handlerIsShortFilms(){
+        if(localStorage.getItem('requestName')){
+            handleGetMovies(localStorage.getItem('requestName'));
+        }
     }
+
 /*    function handlerSaveLocalStorage(name, data){
         localStorage.setItem('requestName', name);
         localStorage.setItem('isShortFilm', JSON.stringify(isShortFilm));
@@ -82,9 +87,25 @@ function App() {
     }*/
     function getMoviesFilter(name, data){
         return data.filter((movie) => {
-            return movie.nameRU.toLowerCase().indexOf(name.toLowerCase()) !== -1 || movie.nameEN.toLowerCase().indexOf(name.toLowerCase()) !== -1;
+            if(localStorage.getItem('isShortFilm') === 'true') {
+                console.log(localStorage.getItem('isShortFilm'));
+                return movie.nameRU.toLowerCase().indexOf(name.toLowerCase()) !== -1 && movie.duration <= 40
+                ||
+                movie.nameEN.toLowerCase().indexOf(name.toLowerCase()) !== -1 && movie.duration <= 40
+            } else if (localStorage.getItem('isShortFilm') === 'false'){
+                return movie.nameRU.toLowerCase().indexOf(name.toLowerCase()) !== -1
+                    ||
+                    movie.nameEN.toLowerCase().indexOf(name.toLowerCase()) !== -1
+            }
         })
     }
+
+/*    function getMoviesFilterDuration(movies){
+        return movies.map((movie) => {
+            return movie.duration <= 40 ? movie : null
+        })
+    }*/
+
     function handleRegister({name, email, password}){
         return mainApi.register(name, email, password)
             .then((data) => {
@@ -205,9 +226,9 @@ function App() {
                           handlerButtonMovies={handlerButtonMovies}
                           handlerButtonProfile={handlerButtonProfile}
                           handleGetMovies={handleGetMovies}
-                          setIsShortFilm={setIsShortFilm}
                           cards={cards}
                           handlerDeleteSavedCard={handlerDeleteSavedCard}
+                          handlerIsShortFilms={handlerIsShortFilms}
                       />
                   }/>
                   <Route path='/saved-movies' element={

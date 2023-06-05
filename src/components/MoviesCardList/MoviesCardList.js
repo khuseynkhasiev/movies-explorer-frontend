@@ -1,6 +1,7 @@
 import {useState, useEffect} from "react";
 import './MoviesCardList.css';
 import MoviesCard from "../MoviesCard/MoviesCard";
+import {useLocation} from "react-router-dom";
 
 export default function MoviesCardList(props){
     const {
@@ -17,9 +18,17 @@ export default function MoviesCardList(props){
     const [numberEndResize650, setNumberSize650] = useState(10);
     const [numberEndResize320, setNumberSize320] = useState(6);
 
+    const { pathname } = useLocation();
+    const isSavedMoviesPage = pathname === '/saved-movies';
+    console.log(isSavedMoviesPage);
+
     useEffect(() => {
         window.addEventListener('resize', handlerResize);
         handlerResize();
+
+        //
+
+        //
         return () => {
             window.removeEventListener('resize', handlerResize);
         }
@@ -95,7 +104,9 @@ export default function MoviesCardList(props){
                     </ul>
                 }
                 {
-                    isVisibleBtn && <button className='movies-card-list__btn' onClick={handleIncrementBtnMovies}>Ещё</button>
+                    !isSavedMoviesPage
+                        &&
+                    (isVisibleBtn && <button className='movies-card-list__btn' onClick={handleIncrementBtnMovies}>Ещё</button>)
                 }
             </div>
         </section>
