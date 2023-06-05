@@ -13,6 +13,7 @@ export default function SavedMovies(props){
         handlerButtonSavedMovies,
         handlerButtonMovies,
         handlerButtonProfile,
+        handlerDeleteSavedCard,
     } = props;
     const {savedUserCards} = useContext(CurrentUserContext);
     return (
@@ -28,6 +29,7 @@ export default function SavedMovies(props){
                 <SearchForm />
                 <MoviesCardList
                     cards={savedUserCards}
+                    handlerDeleteSavedCard={handlerDeleteSavedCard}
                 />
             </div>
             <Footer />

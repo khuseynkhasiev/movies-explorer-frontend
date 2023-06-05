@@ -240,6 +240,7 @@ function App() {
                           handlerButtonSavedMovies={handlerButtonSavedMovies}
                           handlerButtonMovies={handlerButtonMovies}
                           handlerButtonProfile={handlerButtonProfile}
+                          handlerDeleteSavedCard={handlerDeleteSavedCard}
                       />
                   }/>
                   <Route path='/profile' element={
