@@ -20,6 +20,8 @@ export default function MoviesCardList(props){
 
     const { pathname } = useLocation();
     const isSavedMoviesPage = pathname === '/saved-movies';
+
+
     useEffect(() => {
         window.addEventListener('resize', handlerResize);
         handlerResize();
@@ -96,6 +98,7 @@ export default function MoviesCardList(props){
                                 key={card.id}
                                 handlerPostSavedCard={handlerPostSavedCard}
                                 handlerDeleteSavedCard={handlerDeleteSavedCard}
+                                isCardCloseIcon={isSavedMoviesPage}
                             />
                             })
                         }

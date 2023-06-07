@@ -1,5 +1,4 @@
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
-import {savedCards} from "../../constants";
 import './SavedMovies.css';
 import HeaderResult from "../HeaderResult/HeaderResult";
 import SearchForm from "../SearchForm/SearchForm";
@@ -14,6 +13,7 @@ export default function SavedMovies(props){
         handlerButtonMovies,
         handlerButtonProfile,
         handlerDeleteSavedCard,
+        menuIsActive,
     } = props;
     const {savedUserCards} = useContext(CurrentUserContext);
     return (
@@ -25,6 +25,7 @@ export default function SavedMovies(props){
                     handlerButtonSavedMovies={handlerButtonSavedMovies}
                     handlerButtonMovies={handlerButtonMovies}
                     handlerButtonProfile={handlerButtonProfile}
+                    menuIsActive={menuIsActive}
                 />
                 <SearchForm />
                 <MoviesCardList

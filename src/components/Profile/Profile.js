@@ -96,17 +96,14 @@ export default function Profile(props){
         <>
             <HeaderResult
                 handlerMenuIsActive={handlerMenuIsActive}
+                menuIsActive={menuIsActive}
                 handlerButtonLogo={handlerButtonLogo}
                 handlerButtonSavedMovies={handlerButtonSavedMovies}
                 handlerButtonMovies={handlerButtonMovies}
                 handlerButtonProfile={handlerButtonProfile}
             />
             {menuIsActive && <Menu
-                handlerMenuIsActive={handlerMenuIsActive}
-                handlerButtonLogo={handlerButtonLogo}
-                handlerButtonSavedMovies={handlerButtonSavedMovies}
-                handlerButtonMovies={handlerButtonMovies}
-                handlerButtonProfile={handlerButtonProfile}
+                handleMenuIsActive={handlerMenuIsActive}
             />}
             <InfoTooltip
                 onClose={onClose}

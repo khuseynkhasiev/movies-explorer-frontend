@@ -1,12 +1,25 @@
 import './HeaderResult.css';
+import Menu from "../Menu/Menu";
+import {useNavigate} from "react-router-dom";
 export default function HeaderResult(props){
     const {
-        handlerButtonSavedMovies,
-        handlerButtonMovies,
-        handlerButtonProfile,
-        handlerButtonLogo,
-        handlerMenuIsActive
+        handlerMenuIsActive,
+        menuIsActive
     } = props;
+
+    const navigate = useNavigate();
+    const handlerButtonLogo  = () =>{
+        navigate('/')
+    }
+    const handlerButtonMovies = () => {
+        navigate('/movies')
+    }
+    const handlerButtonSavedMovies = () => {
+        navigate('/saved-movies');
+    }
+    const handlerButtonProfile = () => {
+        navigate('/profile')
+    }
     return (
         <header className='header-result'>
             <div className='header-result__top-line'>
@@ -22,6 +35,9 @@ export default function HeaderResult(props){
                     </a>
                 </nav>
                 <div className='header-result__menu-icon' onClick={handlerMenuIsActive}></div>
+                {menuIsActive && <Menu
+                    handleMenuIsActive={handlerMenuIsActive}
+                />}
             </div>
         </header>
     )

@@ -74,6 +74,23 @@ function App() {
                 setPreloaderActive(false);
         })
     }
+/*    function handleGetSavedMovies(name){
+        setPreloaderActive(true);
+        moviesApi.getMovies(name)
+            .then((data) => {
+                setUpdateMovies(!updateMovies);
+                setCards(getMoviesFilter(name, data));
+                setGetMoviesIsError(false);
+                localStorage.setItem('movies', JSON.stringify(getMoviesFilter(name, data)));
+                localStorage.setItem('requestName', name);
+
+            }).catch((err) => {
+            setGetMoviesIsError(true);
+            console.log(err)
+        }).finally(() => {
+            setPreloaderActive(false);
+        })
+    }*/
     function handlerIsShortFilms(){
         if(localStorage.getItem('requestName')){
             handleGetMovies(localStorage.getItem('requestName'));
@@ -161,17 +178,8 @@ function App() {
     function handleButtonRegister() {
         navigate("/signup");
     }
-    function handlerButtonLogo() {
+    function handlerButtonLogo(){
         navigate("/");
-    }
-    function handlerButtonSavedMovies() {
-        navigate("/saved-movies");
-    }
-    function handlerButtonMovies() {
-        navigate("/movies");
-    }
-    function handlerButtonProfile() {
-        navigate("/profile");
     }
     function handlerMenuIsActive(){
         if(menuIsActive) {
@@ -221,10 +229,7 @@ function App() {
                           getMoviesIsError={getMoviesIsError}
                           handlerPostSavedCard={handlerPostSavedCard}
                           handlerMenuIsActive={handlerMenuIsActive}
-                          handlerButtonLogo={handlerButtonLogo}
-                          handlerButtonSavedMovies={handlerButtonSavedMovies}
-                          handlerButtonMovies={handlerButtonMovies}
-                          handlerButtonProfile={handlerButtonProfile}
+                          menuIsActive={menuIsActive}
                           handleGetMovies={handleGetMovies}
                           cards={cards}
                           handlerDeleteSavedCard={handlerDeleteSavedCard}
@@ -236,10 +241,7 @@ function App() {
                           loggedIn={loggedIn}
                           component={SavedMovies}
                           handlerMenuIsActive={handlerMenuIsActive}
-                          handlerButtonLogo={handlerButtonLogo}
-                          handlerButtonSavedMovies={handlerButtonSavedMovies}
-                          handlerButtonMovies={handlerButtonMovies}
-                          handlerButtonProfile={handlerButtonProfile}
+                          menuIsActive={menuIsActive}
                           handlerDeleteSavedCard={handlerDeleteSavedCard}
                       />
                   }/>
@@ -247,17 +249,13 @@ function App() {
                       <ProtectedRoute
                           component={Profile}
                           loggedIn={loggedIn}
-                          menuIsActive={menuIsActive}
                           onClose={closeInfoTooltip}
                           infoToolTip={infoToolTip}
                           patchUserIsError={patchUserIsError}
                           handlerPatchUser={handlerPatchUser}
                           handlerUserExit={handlerUserExit}
                           handlerMenuIsActive={handlerMenuIsActive}
-                          handlerButtonLogo={handlerButtonLogo}
-                          handlerButtonSavedMovies={handlerButtonSavedMovies}
-                          handlerButtonMovies={handlerButtonMovies}
-                          handlerButtonProfile={handlerButtonProfile}
+                          menuIsActive={menuIsActive}
                       />
                   }/>
                   <Route path='*' element={
@@ -270,8 +268,6 @@ function App() {
               {/*<Register />*/}
               {/*<Login />*/}
               {/*<Profile />*/}
-              {/*<Footer />*/}
-              {/*<NotFound />*/}
           </div>
       </CurrentUserContext.Provider>
   );

@@ -1,12 +1,12 @@
 import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import HeaderResult from "../HeaderResult/HeaderResult";
-import {cards} from "../../constants";
 import Menu from "../Menu/Menu";
 import Preloader from "../Preloader/Preloader";
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import Footer from "../Footer/Footer";
 import './Movies.css';
+import CurrentUserContext from "../../contexts/CurrentUserContext";
 
 export default function Movies(props){
     const {
@@ -18,18 +18,19 @@ export default function Movies(props){
         handlerButtonSavedMovies,
         handlerButtonMovies,
         handlerButtonProfile,
-        handleGetMovies,
+        handleGetMovies, //поиск по всем фильмам
         getMoviesIsError,
         cards,
         handlerDeleteSavedCard,
         handlerIsShortFilms,
+        menuIsActive,
     } = props;
 
     const [moviesCards, setMoviesCards] = useState([]);
-
     useEffect(()=>{
         setMoviesCards(JSON.parse(localStorage.getItem('movies')));
     },[updateMovies]);
+
     return (
         <div className='movies'>
             <div className='movies__container'>
@@ -38,7 +39,9 @@ export default function Movies(props){
                     handlerButtonLogo={handlerButtonLogo}
                     handlerButtonSavedMovies={handlerButtonSavedMovies}
                     handlerButtonMovies={handlerButtonMovies}
-                    handlerButtonProfile={handlerButtonProfile}/>
+                    handlerButtonProfile={handlerButtonProfile}
+                    menuIsActive={menuIsActive}
+                />
                 <SearchForm
                     handleGetMovies={handleGetMovies}
                     updateMovies={updateMovies}
