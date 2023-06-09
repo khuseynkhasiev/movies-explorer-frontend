@@ -1,23 +1,43 @@
 import './FilterCheckbox.css';
 import {useEffect, useState} from "react";
+import {useLocation} from "react-router-dom";
 export default function FilterCheckbox(props){
     const {
         updateMovies,
-        handlerIsShortFilms,
+        handleIsShortFilms,
+        handleFilterSavedUserCards,
     } = props
 
     const [checked, setChecked] = useState(false);
+    const {pathname} = useLocation();
     useEffect(() => {
-        setChecked(JSON.parse(localStorage.getItem('isShortFilm')));
+        if(pathname === '/movies'){
+            setChecked(JSON.parse(localStorage.getItem('isShortFilm')));
+        }
+        if(pathname === '/saved-movies'){
+            setChecked(JSON.parse(localStorage.getItem('isShortFilmSaved')));
+        }
     }, [updateMovies])
     const handleCheckedShortFilm = () => {
         setChecked(!checked);
         if(checked) {
-            localStorage.setItem('isShortFilm', false);
-            handlerIsShortFilms();
+            if(pathname === '/movies'){
+                localStorage.setItem('isShortFilm', false);
+                handleIsShortFilms();
+            }
+            if(pathname === '/saved-movies'){
+                localStorage.setItem('isShortFilmSaved', false);
+                handleFilterSavedUserCards(localStorage.getItem('requestNameSaveMovie'));
+            }
         } else {
-            localStorage.setItem('isShortFilm', true);
-            handlerIsShortFilms();
+            if(pathname === '/movies'){
+                localStorage.setItem('isShortFilm', true);
+                handleIsShortFilms();
+            }
+            if(pathname === '/saved-movies'){
+                localStorage.setItem('isShortFilmSaved', true);
+                handleFilterSavedUserCards(localStorage.getItem('requestNameSaveMovie'));
+            }
         }
     }
     return (

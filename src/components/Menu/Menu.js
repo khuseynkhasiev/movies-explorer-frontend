@@ -10,7 +10,6 @@ export default function Menu(props){
     const [isMenuActive, setIsMenuActive] = useState(false);
     const [isMovieActive, setIsMovieActive] = useState(false);
     const [isSaveMoviesActive, setIsSaveMoviesActive] = useState(false);
-    console.log(pathname);
     useEffect(() => {
         switch (pathname) {
             case '/':
@@ -26,8 +25,6 @@ export default function Menu(props){
                 break;
         }
     }, [pathname])
-
-
     function handleClickMain(){
         navigate('/');
         handleMenuIsActive();

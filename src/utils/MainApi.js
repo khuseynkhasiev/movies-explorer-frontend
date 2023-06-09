@@ -14,7 +14,6 @@ const register = (name, email, password) => {
 }
 // пост запрос к беку для удаления куки
 const signout = () => {
-    console.log('запрос удаления куки c фронта');
     return fetch(`${BASE_URL}/signout`, {
         method: 'POST',
         credentials: "include",
@@ -106,5 +105,13 @@ const deleteSavedCard = (movieId) => {
         body: JSON.stringify({movieId})
     }).then((res) => getResponse(res));
 }
-
-export { postSavedCard, register, authorize, getProfileInfo, patchUser, getSavedCards, deleteSavedCard, signout }
+export {
+    postSavedCard,
+    register,
+    authorize,
+    getProfileInfo,
+    patchUser,
+    getSavedCards,
+    deleteSavedCard,
+    signout,
+}

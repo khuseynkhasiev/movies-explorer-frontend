@@ -32,7 +32,7 @@ export default function Register(props){
             setFormValid(true);
         }
     }, [emailOnError, passwordOnError, nameOnError])
-    const emailHandler = e => {
+    const emailhandle = e => {
         setEmail(e.target.value);
         const reg = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if(!e.target.value){
@@ -46,7 +46,7 @@ export default function Register(props){
             setEmailOnError(false);
         }
     }
-    const passwordHandler = e => {
+    const passwordhandle = e => {
         setPassword(e.target.value);
         if (e.target.value.length < 3){
             setPasswordOnError(true);
@@ -58,7 +58,7 @@ export default function Register(props){
             setPasswordOnError(false);
         }
     }
-    const nameHandler = e => {
+    const namehandle = e => {
         setName(e.target.value);
         const reg = /^[a-zа-яё\s\-_]+$/iu;
         if(!e.target.value){
@@ -71,7 +71,7 @@ export default function Register(props){
             setNameOnError(false);
         }
     }
-    const blurHandler = e => {
+    const blurhandle = e => {
         switch (e.target.name){
             case 'email':
                 if(!email){
@@ -107,7 +107,7 @@ export default function Register(props){
                 <h3 className="register__title">Добро пожаловать!</h3>
                 <p className='register__text'>Имя</p>
                 <input
-                    onBlur={blurHandler}
+                    onBlur={blurhandle}
                     type="text"
                     className="register__input"
                     id="name"
@@ -115,11 +115,11 @@ export default function Register(props){
                     required
                     minLength='3'
                     maxLength='30'
-                    onChange={nameHandler}/>
+                    onChange={namehandle}/>
                 <span className={`reqister__input-error ${nameOnError && 'reqister__input-error_visible'}`}>{nameError}</span>
                 <p className='register__text'>E-mail</p>
                 <input
-                    onBlur={blurHandler}
+                    onBlur={blurhandle}
                     type="email"
                     className="register__input"
                     id="email"
@@ -127,11 +127,11 @@ export default function Register(props){
                     required
                     minLength='3'
                     maxLength='30'
-                    onChange={emailHandler}/>
+                    onChange={emailhandle}/>
                 <span className={`reqister__input-error ${emailOnError && 'reqister__input-error_visible'}`}>{emailError}</span>
                 <p className='register__text'>Пароль</p>
                 <input
-                    onBlur={blurHandler}
+                    onBlur={blurhandle}
                     type="password"
                     className="register__input"
                     id="password"
@@ -139,7 +139,7 @@ export default function Register(props){
                     required
                     minLength='3'
                     maxLength='29'
-                    onChange={passwordHandler}/>
+                    onChange={passwordhandle}/>
                 <span className={`reqister__input-error ${passwordOnError && 'reqister__input-error_visible'}`}>{passwordError}</span>
                 <button disabled={!formValid} type="submit" className={`register__submit-btn ${formValid && 'register__submit-btn_active'}`}>Зарегистрироваться</button>
                 <p className="register__subtext">

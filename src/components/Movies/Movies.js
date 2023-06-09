@@ -1,28 +1,26 @@
 import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import HeaderResult from "../HeaderResult/HeaderResult";
-import Menu from "../Menu/Menu";
 import Preloader from "../Preloader/Preloader";
-import {useContext, useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import Footer from "../Footer/Footer";
 import './Movies.css';
-import CurrentUserContext from "../../contexts/CurrentUserContext";
 
 export default function Movies(props){
     const {
         preloaderActive,
         updateMovies,
-        handlerPostSavedCard,
-        handlerMenuIsActive,
-        handlerButtonLogo,
-        handlerButtonSavedMovies,
-        handlerButtonMovies,
-        handlerButtonProfile,
+        handlePostSavedCard,
+        handleMenuIsActive,
+        handleButtonLogo,
+        handleButtonSavedMovies,
+        handleButtonMovies,
+        handleButtonProfile,
         handleGetMovies, //поиск по всем фильмам
         getMoviesIsError,
         cards,
-        handlerDeleteSavedCard,
-        handlerIsShortFilms,
+        handleDeleteSavedCard,
+        handleIsShortFilms,
         menuIsActive,
     } = props;
 
@@ -35,27 +33,27 @@ export default function Movies(props){
         <div className='movies'>
             <div className='movies__container'>
                 <HeaderResult
-                    handlerMenuIsActive={handlerMenuIsActive}
-                    handlerButtonLogo={handlerButtonLogo}
-                    handlerButtonSavedMovies={handlerButtonSavedMovies}
-                    handlerButtonMovies={handlerButtonMovies}
-                    handlerButtonProfile={handlerButtonProfile}
+                    handleMenuIsActive={handleMenuIsActive}
+                    handleButtonLogo={handleButtonLogo}
+                    handleButtonSavedMovies={handleButtonSavedMovies}
+                    handleButtonMovies={handleButtonMovies}
+                    handleButtonProfile={handleButtonProfile}
                     menuIsActive={menuIsActive}
                 />
                 <SearchForm
                     handleGetMovies={handleGetMovies}
                     updateMovies={updateMovies}
-                    handlerIsShortFilms={handlerIsShortFilms}
+                    handleIsShortFilms={handleIsShortFilms}
                 />
                 {preloaderActive ?
                     <Preloader /> :
                     <MoviesCardList
                         cards={moviesCards}
                         /*cards={cards}*/
-                        handlerDeleteSavedCard={handlerDeleteSavedCard}
+                        handleDeleteSavedCard={handleDeleteSavedCard}
 
                         getMoviesIsError={getMoviesIsError}
-                        handlerPostSavedCard={handlerPostSavedCard}
+                        handlePostSavedCard={handlePostSavedCard}
                     />
                 }
             </div>

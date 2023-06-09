@@ -3,40 +3,40 @@ import Menu from "../Menu/Menu";
 import {useNavigate} from "react-router-dom";
 export default function HeaderResult(props){
     const {
-        handlerMenuIsActive,
+        handleMenuIsActive,
         menuIsActive
     } = props;
 
     const navigate = useNavigate();
-    const handlerButtonLogo  = () =>{
+    const handleButtonLogo  = () =>{
         navigate('/')
     }
-    const handlerButtonMovies = () => {
+    const handleButtonMovies = () => {
         navigate('/movies')
     }
-    const handlerButtonSavedMovies = () => {
+    const handleButtonSavedMovies = () => {
         navigate('/saved-movies');
     }
-    const handlerButtonProfile = () => {
+    const handleButtonProfile = () => {
         navigate('/profile')
     }
     return (
         <header className='header-result'>
             <div className='header-result__top-line'>
-                <div className='header-result__logo' onClick={handlerButtonLogo}></div>
+                <div className='header-result__logo' onClick={handleButtonLogo}></div>
                 <nav className='header-result__nav'>
                     <ul className='header-result__nav-list'>
-                        <li className='header-result__nav-item' onClick={handlerButtonMovies}><a className='header-result__nav-link' href='#'>Фильмы</a></li>
-                        <li className='header-result__nav-item' onClick={handlerButtonSavedMovies}><a className='header-result__nav-link' href='#'>Сохранённые фильмы</a></li>
+                        <li className='header-result__nav-item' onClick={handleButtonMovies}><a className='header-result__nav-link' href='#'>Фильмы</a></li>
+                        <li className='header-result__nav-item' onClick={handleButtonSavedMovies}><a className='header-result__nav-link' href='#'>Сохранённые фильмы</a></li>
                     </ul>
-                    <a className='header-result__profile-block' onClick={handlerButtonProfile}>
+                    <a className='header-result__profile-block' onClick={handleButtonProfile}>
                         <div className='header-result__profile-icon'></div>
                         <p className='header-result__profile-text'>Аккаунт</p>
                     </a>
                 </nav>
-                <div className='header-result__menu-icon' onClick={handlerMenuIsActive}></div>
+                <div className='header-result__menu-icon' onClick={handleMenuIsActive}></div>
                 {menuIsActive && <Menu
-                    handleMenuIsActive={handlerMenuIsActive}
+                    handleMenuIsActive={handleMenuIsActive}
                 />}
             </div>
         </header>

@@ -6,14 +6,14 @@ import Menu from  "../Menu/Menu";
 import InfoTooltip from "../InfoTooltip/InfoTooltip";
 export default function Profile(props){
     const {
-        handlerUserExit,
-        handlerMenuIsActive,
-        handlerButtonLogo,
-        handlerButtonSavedMovies,
-        handlerButtonMovies,
-        handlerButtonProfile,
+        handleUserExit,
+        handleMenuIsActive,
+        handleButtonLogo,
+        handleButtonSavedMovies,
+        handleButtonMovies,
+        handleButtonProfile,
         menuIsActive,
-        handlerPatchUser,
+        handlePatchUser,
         onClose,
         infoToolTip,
         patchUserIsError,
@@ -42,7 +42,7 @@ export default function Profile(props){
         }
     }, [emailOnError, nameOnError, name, email, patchUserIsError, formValid, currentUser])
 
-    const emailHandler = (e) => {
+    const emailhandle = (e) => {
         setEmail(e.target.value);
         const reg = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if(!e.target.value){
@@ -56,7 +56,7 @@ export default function Profile(props){
             setEmailOnError(false);
         }
     }
-    const nameHandler = (e) => {
+    const namehandle = (e) => {
         setName(e.target.value);
         const reg = /^[a-zа-яё\s\-_]+$/iu;
         if(!e.target.value){
@@ -69,7 +69,7 @@ export default function Profile(props){
             setNameOnError(false);
         }
     }
-    const blurHandler = e => {
+    const blurhandle = e => {
         switch (e.target.name){
             case 'email':
                 if(!email){
@@ -83,27 +83,27 @@ export default function Profile(props){
                 break
         }
     }
-    const handlerOnEditForm = () => {
+    const handleOnEditForm = () => {
         setOnEditForm(true);
     }
-    const handlerOffEditForm = (e) => {
+    const handleOffEditForm = (e) => {
         e.preventDefault();
         setFormValid(false);
-        handlerPatchUser({email, name});
+        handlePatchUser({email, name});
         setOnEditForm(true);
     }
     return (
         <>
             <HeaderResult
-                handlerMenuIsActive={handlerMenuIsActive}
+                handleMenuIsActive={handleMenuIsActive}
                 menuIsActive={menuIsActive}
-                handlerButtonLogo={handlerButtonLogo}
-                handlerButtonSavedMovies={handlerButtonSavedMovies}
-                handlerButtonMovies={handlerButtonMovies}
-                handlerButtonProfile={handlerButtonProfile}
+                handleButtonLogo={handleButtonLogo}
+                handleButtonSavedMovies={handleButtonSavedMovies}
+                handleButtonMovies={handleButtonMovies}
+                handleButtonProfile={handleButtonProfile}
             />
             {menuIsActive && <Menu
-                handleMenuIsActive={handlerMenuIsActive}
+                handleMenuIsActive={handleMenuIsActive}
             />}
             <InfoTooltip
                 onClose={onClose}
@@ -114,8 +114,8 @@ export default function Profile(props){
                     <div className='profile__block'>
                         <label className='profile__text' htmlFor='profile-name'>Имя</label>
                         <input
-                            onChange={nameHandler}
-                            onBlur={blurHandler}
+                            onChange={namehandle}
+                            onBlur={blurhandle}
                             className='profile__input'
                             name='profile-name'
                             value={name}
@@ -134,8 +134,8 @@ export default function Profile(props){
                     <div className='profile__block'>
                         <label className='profile__text' htmlFor='profile-email'>E-mail</label>
                         <input
-                            onChange={emailHandler}
-                            onBlur={blurHandler}
+                            onChange={emailhandle}
+                            onBlur={blurhandle}
                             className='profile__input'
                             name='profile-email'
                             value={email}
@@ -159,7 +159,7 @@ export default function Profile(props){
                             <button
                                 className={`profile__submit-btn ${formValid && 'profile__submit-btn_active'}`}
                                 type='button'
-                                onClick={handlerOffEditForm}
+                                onClick={handleOffEditForm}
                                 disabled={!formValid}>
                                 Сохранить
                             </button>
@@ -167,14 +167,14 @@ export default function Profile(props){
                     ) : (
                         <>
                             <button
-                                onClick={handlerOnEditForm}
+                                onClick={handleOnEditForm}
                                 type='button'
                                 name='profile__edit-btn'
                                 className='profile__edit-btn'>
                                 Редактировать
                             </button>
                             <button
-                                onClick={handlerUserExit}
+                                onClick={handleUserExit}
                                 type='button'
                                 name='profile__exit-btn'
                                 className='profile__exit-btn'>

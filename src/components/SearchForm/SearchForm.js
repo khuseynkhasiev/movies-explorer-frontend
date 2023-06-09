@@ -1,18 +1,25 @@
 import "./SearchForm.css";
 import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 import {useEffect, useState} from "react";
+import {useLocation} from "react-router-dom";
 export default function SearchForm(props){
     const {
         handleGetMovies,
         updateMovies,
-        handlerIsShortFilms,
+        handleIsShortFilms,
+        handleFilterSavedUserCards,
     } = props;
 
     const [movieName, setMovieName] = useState('');
     const [isError, setIsError] = useState(false);
-
+    const {pathname} = useLocation();
     useEffect(()=>{
-        setMovieName(localStorage.getItem('requestName'));
+        if(pathname === '/movies'){
+            setMovieName(localStorage.getItem('requestNameMovie'));
+        }
+        if(pathname === '/saved-movies'){
+            setMovieName(localStorage.getItem('requestNameSaveMovie'));
+        }
     },[updateMovies]);
     const handleMovieName = (e) => {
         const {value} = e.target;
@@ -21,11 +28,17 @@ export default function SearchForm(props){
     }
     const handleSubmitForm = (e) => {
         e.preventDefault();
-        if(movieName){
-            handleGetMovies(movieName); // смотря на какой странице вызывать разный обработкик movies saved-movies
+        if(pathname === '/movies'){
+            if(movieName){
+                handleGetMovies(movieName);
+                setIsError(false);
+            } else {
+                setIsError(true);
+            }
+        }
+        if(pathname === '/saved-movies'){
+            handleFilterSavedUserCards(movieName);
             setIsError(false);
-        } else {
-            setIsError(true);
         }
     }
 
@@ -42,7 +55,8 @@ export default function SearchForm(props){
                     </div>
                     <FilterCheckbox
                         updateMovies={updateMovies}
-                        handlerIsShortFilms={handlerIsShortFilms}
+                        handleIsShortFilms={handleIsShortFilms}
+                        handleFilterSavedUserCards={handleFilterSavedUserCards}
                     />
                 </form>
                 <span

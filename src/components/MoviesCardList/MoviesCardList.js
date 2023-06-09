@@ -6,9 +6,9 @@ import {useLocation} from "react-router-dom";
 export default function MoviesCardList(props){
     const {
         cards,
-        handlerPostSavedCard,
+        handlePostSavedCard,
         getMoviesIsError,
-        handlerDeleteSavedCard,
+        handleDeleteSavedCard,
     } = props;
     const [newCardsList, setNewCardsList] = useState([])
     const [windowWidth, setWindowWidth] = useState();
@@ -23,10 +23,10 @@ export default function MoviesCardList(props){
 
 
     useEffect(() => {
-        window.addEventListener('resize', handlerResize);
-        handlerResize();
+        window.addEventListener('resize', handleResize);
+        handleResize();
         return () => {
-            window.removeEventListener('resize', handlerResize);
+            window.removeEventListener('resize', handleResize);
         }
     }, [windowWidth, cards]);
     function handleIncrementBtnMovies(){
@@ -51,7 +51,7 @@ export default function MoviesCardList(props){
             handleVisibleBtn(cards.length, numberEndResize320);
         }
     }
-    function handlerResize(){
+    function handleResize(){
         setWindowWidth(window.innerWidth);
         if (windowWidth > 1279 & cards !== null) {
             setNewCardsList(cards.slice(0,16));
@@ -96,8 +96,8 @@ export default function MoviesCardList(props){
                             return <MoviesCard
                                 card={card}
                                 key={card.id}
-                                handlerPostSavedCard={handlerPostSavedCard}
-                                handlerDeleteSavedCard={handlerDeleteSavedCard}
+                                handlePostSavedCard={handlePostSavedCard}
+                                handleDeleteSavedCard={handleDeleteSavedCard}
                                 isCardCloseIcon={isSavedMoviesPage}
                             />
                             })

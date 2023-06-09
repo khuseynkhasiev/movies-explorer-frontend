@@ -1,4 +1,4 @@
-import {Routes, Route, useNavigate, Navigate} from 'react-router-dom';
+import {Routes, Route, useNavigate} from 'react-router-dom';
 import '../../vendor/normalize.css';
 import '../../vendor/fonts/fonts.css';
 import './App.css';
@@ -7,20 +7,15 @@ import Main from "../Main/Main";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import Movies from "../Movies/Movies";
-import SearchForm from "../SearchForm/SearchForm";
-import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import SavedMovies from "../SavedMovies/SavedMovies";
 import Register from "../Register/Register";
 import Login from "../Login/Login";
 import Profile from "../Profile/Profile";
 import NotFound from "../NotFound/NotFound";
-import HeaderResult from "../HeaderResult/HeaderResult";
 import {useEffect, useState} from "react";
-import Menu from "../Menu/Menu";
 import * as moviesApi from "../../utils/MoviesApi";
 import * as mainApi from "../../utils/MainApi";
 import CurrentUserContext from "../../contexts/CurrentUserContext";
-import {getSavedCards} from "../../utils/MainApi";
 
 function App() {
     const navigate = useNavigate();
@@ -45,11 +40,25 @@ function App() {
                 })
                 .catch((err) => console.log(err))
         }
-        localStorage.setItem('isShortFilm', false);
-/*        if(localStorage.getItem('movies')){
-            setCards(localStorage.getItem('movies'));
-        }*/
+        getIsShortFilm();
     }, [loggedIn])
+
+    // Получаем при начальной отрисовке значение isShortFilm
+    function getIsShortFilm(){
+        if(!localStorage.getItem('isShortFilmSaved')){
+            localStorage.setItem('isShortFilmSaved', false);
+        }
+        if(!localStorage.getItem('isShortFilm')){
+            localStorage.setItem('isShortFilm', false);
+        }
+    }
+    // запрос со страницы 'movie' при переключение бегунка
+    function handleIsShortFilms(){
+        if(localStorage.getItem('requestNameMovie')){
+            handleGetMovies(localStorage.getItem('requestNameMovie'));
+        }
+    }
+    // проверяем авторизован ли пользователь
     function checkToken(){
         const token = localStorage.getItem('userId')
         if(token){
@@ -57,6 +66,7 @@ function App() {
             navigate("/movies", {replace: true});
         }
     }
+    // получаем отфильтрованный список фильмов
     function handleGetMovies(name){
         setPreloaderActive(true);
         moviesApi.getMovies(name)
@@ -65,8 +75,7 @@ function App() {
                 setCards(getMoviesFilter(name, data));
                 setGetMoviesIsError(false);
                 localStorage.setItem('movies', JSON.stringify(getMoviesFilter(name, data)));
-                localStorage.setItem('requestName', name);
-
+                localStorage.setItem('requestNameMovie', name);
             }).catch((err) => {
                 setGetMoviesIsError(true);
                 console.log(err)
@@ -74,41 +83,13 @@ function App() {
                 setPreloaderActive(false);
         })
     }
-/*    function handleGetSavedMovies(name){
-        setPreloaderActive(true);
-        moviesApi.getMovies(name)
-            .then((data) => {
-                setUpdateMovies(!updateMovies);
-                setCards(getMoviesFilter(name, data));
-                setGetMoviesIsError(false);
-                localStorage.setItem('movies', JSON.stringify(getMoviesFilter(name, data)));
-                localStorage.setItem('requestName', name);
-
-            }).catch((err) => {
-            setGetMoviesIsError(true);
-            console.log(err)
-        }).finally(() => {
-            setPreloaderActive(false);
-        })
-    }*/
-    function handlerIsShortFilms(){
-        if(localStorage.getItem('requestName')){
-            handleGetMovies(localStorage.getItem('requestName'));
-        }
-    }
-
-/*    function handlerSaveLocalStorage(name, data){
-        localStorage.setItem('requestName', name);
-        localStorage.setItem('isShortFilm', JSON.stringify(isShortFilm));
-        localStorage.setItem('movies', JSON.stringify(getMoviesFilter(name, data)));
-    }*/
+    // возвращает отфильтрованный список фильмов
     function getMoviesFilter(name, data){
         return data.filter((movie) => {
             if(localStorage.getItem('isShortFilm') === 'true') {
-                console.log(localStorage.getItem('isShortFilm'));
                 return movie.nameRU.toLowerCase().indexOf(name.toLowerCase()) !== -1 && movie.duration <= 40
-                ||
-                movie.nameEN.toLowerCase().indexOf(name.toLowerCase()) !== -1 && movie.duration <= 40
+                    ||
+                    movie.nameEN.toLowerCase().indexOf(name.toLowerCase()) !== -1 && movie.duration <= 40
             } else if (localStorage.getItem('isShortFilm') === 'false'){
                 return movie.nameRU.toLowerCase().indexOf(name.toLowerCase()) !== -1
                     ||
@@ -116,21 +97,49 @@ function App() {
             }
         })
     }
-
-/*    function getMoviesFilterDuration(movies){
-        return movies.map((movie) => {
-            return movie.duration <= 40 ? movie : null
-        })
-    }*/
-
+    // получаем, фильтруем и записываем список сохраненных фильмов
+    function handleFilterSavedUserCards(name){
+        if(name) {
+            localStorage.setItem('requestNameSaveMovie', name);
+            mainApi.getSavedCards()
+                .then((data) =>{
+                    if(localStorage.getItem('isShortFilmSaved') === 'true') {
+                        setSavedUserCards(data.filter((movie) => {
+                            return movie.nameRU.toLowerCase().indexOf(name.toLowerCase()) !== -1 && movie.duration <= 40
+                                ||
+                                movie.nameEN.toLowerCase().indexOf(name.toLowerCase()) !== -1 && movie.duration <= 40
+                        }) || [])
+                    } else if (localStorage.getItem('isShortFilmSaved') === 'false'){
+                        setSavedUserCards(data.filter((movie) => {
+                            return movie.nameRU.toLowerCase().indexOf(name.toLowerCase()) !== -1
+                                ||
+                                movie.nameEN.toLowerCase().indexOf(name.toLowerCase()) !== -1
+                        }) || [])
+                    }
+                }).catch((err) => console.log(err))
+        } else {
+            localStorage.setItem('requestNameSaveMovie', '');
+            mainApi.getSavedCards()
+                .then((data) => {
+                    if(localStorage.getItem('isShortFilmSaved') === 'true') {
+                        setSavedUserCards(data.filter((movie) => {
+                            return movie.duration <= 40 ? movie : null;
+                        }) || [])
+                    } else if (localStorage.getItem('isShortFilmSaved') === 'false'){
+                        setSavedUserCards(data || []);
+                    }
+            }).catch((err) => console.log(err));
+        }
+    }
+    // регистрация
     function handleRegister({name, email, password}){
         return mainApi.register(name, email, password)
             .then((data) => {
-                console.log(data)
                 navigate('/movies', {replace: true});
             })
             .catch((err) => console.log(err));
     }
+    // авторизация
     function handleLogin({email, password}){
         return mainApi.authorize(email, password)
             .then((res) => {
@@ -141,14 +150,14 @@ function App() {
             })
             .catch((err) => console.log(err))
     }
-
-    // функция которая вызывается при клике пользователя на кнопку ВЫХОД
-    function handlerUserExit(){
+    // выход пользователя
+    function handleUserExit(){
         localStorage.clear();
         setLoggedIn(false);
         return mainApi.signout();
     }
-    function handlerPatchUser({email, name}) {
+    // обновление данных пользователя
+    function handlePatchUser({email, name}) {
         return mainApi.patchUser(email, name)
             .then((user) => {
                 setPatchUserIsError(false);
@@ -159,35 +168,41 @@ function App() {
                 setPatchUserIsError(true);
             })
     }
-
-    function handlerPostSavedCard(card){
+    // сохранение карточки в избранное
+    function handlePostSavedCard(card){
         mainApi.postSavedCard(card)
             .then((card) => {
                 setSavedUserCards([...savedUserCards, card])
             })
             .catch((err) => console.log(err))
     }
-    function handlerDeleteSavedCard(card){
+    // удаление карточки из избранных
+    function handleDeleteSavedCard(card){
         mainApi.deleteSavedCard(card.id)
             .then(setSavedUserCards(state => state.filter(item => item.id === card.id ? null : card)))
             .catch((err) => console.log(err))
     }
+    // навигация к странице авторизации
     function handleButtonSignIn() {
         navigate("/signin");
     }
+    // навигация к странице регистрации
     function handleButtonRegister() {
         navigate("/signup");
     }
-    function handlerButtonLogo(){
+    // навигация к главной странице
+    function handleButtonLogo(){
         navigate("/");
     }
-    function handlerMenuIsActive(){
+    // открытие и закрытие доп меню при меньшем разрешении экрана
+    function handleMenuIsActive(){
         if(menuIsActive) {
             setMenuIsActive(false);
         } else {
             setMenuIsActive(true);
         }
     }
+    // закрытие информационного попапа регистрации
     function closeInfoTooltip(){
         setInfoToolTip(false);
     }
@@ -198,7 +213,7 @@ function App() {
                   <Route path='/' element={
                       <>
                           <Header
-                              handlerButtonLogo={handlerButtonLogo}
+                              handleButtonLogo={handleButtonLogo}
                               handleButtonSignIn={handleButtonSignIn}
                               handleButtonRegister={handleButtonRegister}/>
                           <Main />
@@ -209,17 +224,16 @@ function App() {
                       <Login
                           handleLogin={handleLogin}
                           handleButtonRegister={handleButtonRegister}
-                          handlerButtonLogo={handlerButtonLogo}
+                          handleButtonLogo={handleButtonLogo}
                       />
                   }/>
                   <Route path='/signup' element={
                       <Register
                           handleRegister={handleRegister}
                           handleButtonSignIn={handleButtonSignIn}
-                          handlerButtonLogo={handlerButtonLogo}
+                          handleButtonLogo={handleButtonLogo}
                       />
                   }/>
-
                   <Route path='/movies' element={
                       <ProtectedRoute
                           component={Movies}
@@ -227,22 +241,26 @@ function App() {
                           preloaderActive={preloaderActive}
                           updateMovies={updateMovies}
                           getMoviesIsError={getMoviesIsError}
-                          handlerPostSavedCard={handlerPostSavedCard}
-                          handlerMenuIsActive={handlerMenuIsActive}
+                          handlePostSavedCard={handlePostSavedCard}
+                          handleMenuIsActive={handleMenuIsActive}
                           menuIsActive={menuIsActive}
                           handleGetMovies={handleGetMovies}
                           cards={cards}
-                          handlerDeleteSavedCard={handlerDeleteSavedCard}
-                          handlerIsShortFilms={handlerIsShortFilms}
+                          handleDeleteSavedCard={handleDeleteSavedCard}
+                          handleIsShortFilms={handleIsShortFilms}
                       />
                   }/>
                   <Route path='/saved-movies' element={
                       <ProtectedRoute
                           loggedIn={loggedIn}
                           component={SavedMovies}
-                          handlerMenuIsActive={handlerMenuIsActive}
+                          handleMenuIsActive={handleMenuIsActive}
                           menuIsActive={menuIsActive}
-                          handlerDeleteSavedCard={handlerDeleteSavedCard}
+                          handleDeleteSavedCard={handleDeleteSavedCard}
+                          updateMovies={updateMovies}
+                          handleIsShortFilms={handleIsShortFilms}
+                          handleGetMovies={handleGetMovies}
+                          handleFilterSavedUserCards={handleFilterSavedUserCards}
                       />
                   }/>
                   <Route path='/profile' element={
@@ -252,14 +270,14 @@ function App() {
                           onClose={closeInfoTooltip}
                           infoToolTip={infoToolTip}
                           patchUserIsError={patchUserIsError}
-                          handlerPatchUser={handlerPatchUser}
-                          handlerUserExit={handlerUserExit}
-                          handlerMenuIsActive={handlerMenuIsActive}
+                          handlePatchUser={handlePatchUser}
+                          handleUserExit={handleUserExit}
+                          handleMenuIsActive={handleMenuIsActive}
                           menuIsActive={menuIsActive}
                       />
                   }/>
                   <Route path='*' element={
-                      <NotFound handlerButtonLogo={handlerButtonLogo}/>
+                      <NotFound handleButtonLogo={handleButtonLogo}/>
                   }/>
               </Routes>
               {/*<Main />*/}
@@ -272,5 +290,4 @@ function App() {
       </CurrentUserContext.Provider>
   );
 }
-
 export default App;

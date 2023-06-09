@@ -7,30 +7,40 @@ import {useContext} from "react";
 import CurrentUserContext from "../../contexts/CurrentUserContext";
 export default function SavedMovies(props){
     const {
-        handlerMenuIsActive,
-        handlerButtonLogo,
-        handlerButtonSavedMovies,
-        handlerButtonMovies,
-        handlerButtonProfile,
-        handlerDeleteSavedCard,
+        handleMenuIsActive,
+        handleButtonLogo,
+        handleButtonSavedMovies,
+        handleButtonMovies,
+        handleButtonProfile,
+        handleDeleteSavedCard,
         menuIsActive,
+        handleGetMovies,
+        updateMovies,
+        handleIsShortFilms,
+        handleFilterSavedUserCards,
     } = props;
     const {savedUserCards} = useContext(CurrentUserContext);
+
     return (
         <div className='saved-movies'>
             <div className='saved-movies__container'>
                 <HeaderResult
-                    handlerMenuIsActive={handlerMenuIsActive}
-                    handlerButtonLogo={handlerButtonLogo}
-                    handlerButtonSavedMovies={handlerButtonSavedMovies}
-                    handlerButtonMovies={handlerButtonMovies}
-                    handlerButtonProfile={handlerButtonProfile}
+                    handleMenuIsActive={handleMenuIsActive}
+                    handleButtonLogo={handleButtonLogo}
+                    handleButtonSavedMovies={handleButtonSavedMovies}
+                    handleButtonMovies={handleButtonMovies}
+                    handleButtonProfile={handleButtonProfile}
                     menuIsActive={menuIsActive}
                 />
-                <SearchForm />
+                <SearchForm
+                    handleGetMovies={handleGetMovies}
+                    updateMovies={updateMovies}
+                    handleIsShortFilms={handleIsShortFilms}
+                    handleFilterSavedUserCards={handleFilterSavedUserCards}
+                />
                 <MoviesCardList
                     cards={savedUserCards}
-                    handlerDeleteSavedCard={handlerDeleteSavedCard}
+                    handleDeleteSavedCard={handleDeleteSavedCard}
                 />
             </div>
             <Footer />

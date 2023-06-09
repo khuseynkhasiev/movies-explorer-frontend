@@ -32,7 +32,7 @@ export default function Login(props){
             setFormValid(true);
         }
     }, [emailOnError, passwordOnError])
-    const emailHandler = e => {
+    const emailhandle = e => {
         setEmail(e.target.value);
         const reg = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if(!e.target.value){
@@ -46,7 +46,7 @@ export default function Login(props){
             setEmailOnError(false);
         }
     }
-    const passwordHandler = e => {
+    const passwordhandle = e => {
         setPassword(e.target.value);
         if (e.target.value.length < 3){
             setPasswordOnError(true);
@@ -58,7 +58,7 @@ export default function Login(props){
             setPasswordOnError(false);
         }
     }
-    const blurHandler = e => {
+    const blurhandle = e => {
         switch (e.target.name){
             case 'email':
                 if(!email){
@@ -85,7 +85,7 @@ export default function Login(props){
                 <h3 className="login__title">Рады видеть!</h3>
                 <p className='login__text'>E-mail</p>
                 <input
-                    onBlur={blurHandler}
+                    onBlur={blurhandle}
                     type="email"
                     className="login__input"
                     id="email"
@@ -93,11 +93,11 @@ export default function Login(props){
                     required
                     minLength='3'
                     maxLength='30'
-                    onChange={emailHandler}/>
+                    onChange={emailhandle}/>
                 <span className={`reqister__input-error ${emailOnError && 'login__input-error_visible'}`}>{emailError}</span>
                 <p className='login__text'>Пароль</p>
                 <input
-                    onBlur={blurHandler}
+                    onBlur={blurhandle}
                     type="password"
                     className="login__input"
                     id="password"
@@ -105,7 +105,7 @@ export default function Login(props){
                     required
                     minLength='3'
                     maxLength='30'
-                    onChange={passwordHandler}/>
+                    onChange={passwordhandle}/>
                 <span className={`reqister__input-error ${passwordOnError && 'login__input-error_visible'}`}>{passwordError}</span>
                 <button disabled={!formValid} type="submit" className={`login__submit-btn ${formValid && 'login__submit-btn_active'}`}>Войти</button>
                 <p className="login__subtext">
