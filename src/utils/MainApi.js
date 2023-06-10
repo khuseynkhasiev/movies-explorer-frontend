@@ -1,6 +1,5 @@
-/*
-const BASE_URL = 'http://localhost:3001';
-*/
+
+// const BASE_URL = 'http://localhost:3001';
 const BASE_URL = 'https://api.husmovies.nomoredomains.monster';
 
 const getResponse = (res) => {
@@ -30,7 +29,8 @@ const authorize = (email, password) => {
         method: 'POST',
         credentials: "include",
         headers: {
-            'Content-Type': 'application/json'
+            "Accept": "application/json",
+            "Content-Type": "application/json"
         },
         body: JSON.stringify({email, password})
     }).then((res) => getResponse(res))
