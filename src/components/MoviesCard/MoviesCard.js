@@ -1,7 +1,7 @@
 import './MoviesCard.css';
 import {useContext, useEffect, useState} from "react";
 import CurrentUserContext from "../../contexts/CurrentUserContext";
-import {Link, useNavigate} from "react-router-dom";
+import {Link} from "react-router-dom";
 export default function MoviesCard(props){
     const {
         card,
@@ -12,6 +12,9 @@ export default function MoviesCard(props){
     const {savedUserCards} = useContext(CurrentUserContext);
     const [cardImageUrl, setCardImageUrl] = useState('');
     const [isLikeMovie, setIsLikeMovie] = useState(savedUserCards.some(i => i.id === card.id));
+    useEffect(() => {
+        setIsLikeMovie(savedUserCards.some(i => i.id === card.id));
+    }, [savedUserCards]);
     useEffect(()=> {
         if(typeof card.image === "string"){
             setCardImageUrl(card.image);
@@ -31,10 +34,6 @@ export default function MoviesCard(props){
                 handlePostSavedCard(card);
             }
         }
-    }
-    const navigate = useNavigate();
-    function handleClickCardTrailer() {
-        navigate(card.trailerLink);
     }
     return (
         <li className='movies-card'>

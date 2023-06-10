@@ -30,15 +30,15 @@ export default function Menu(props){
         handleMenuIsActive();
     }
     function handleClickMovies(){
-        navigate('/movies');
+        navigate('/movies', {replace: true});
         handleMenuIsActive();
     }
     function handleClickSavedMovies(){
-        navigate('/saved-movies');
+        navigate('/saved-movies', {replace: true});
         handleMenuIsActive();
     }
     function handleClickProfile(){
-        navigate('/profile');
+        navigate('/profile', {replace: true});
         handleMenuIsActive();
     }
     return (

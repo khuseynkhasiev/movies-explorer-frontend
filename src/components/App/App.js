@@ -1,4 +1,4 @@
-import {Routes, Route, useNavigate} from 'react-router-dom';
+import {Routes, Route, useNavigate, useLocation} from 'react-router-dom';
 import '../../vendor/normalize.css';
 import '../../vendor/fonts/fonts.css';
 import './App.css';
@@ -19,7 +19,6 @@ import CurrentUserContext from "../../contexts/CurrentUserContext";
 
 function App() {
     const navigate = useNavigate();
-    const [currentUser, setCurrentUser] = useState({});
     const [menuIsActive, setMenuIsActive] = useState(false);
     const [preloaderActive, setPreloaderActive] = useState(false);
     const [updateMovies, setUpdateMovies] = useState(false);
@@ -28,14 +27,15 @@ function App() {
     const [infoToolTip, setInfoToolTip] = useState(false);
     const [getMoviesIsError, setGetMoviesIsError] = useState(false);
     const [savedUserCards, setSavedUserCards] = useState([]);
-    const [cards, setCards] = useState([]);
+
+    const {pathname} = useLocation();
 
     useEffect(() => {
         checkToken();
         if(loggedIn){
             Promise.all([mainApi.getProfileInfo(), mainApi.getSavedCards()])
                 .then(([user, savedMovies]) => {
-                    setCurrentUser(user);
+                    localStorage.setItem('userInfo', JSON.stringify(user));
                     setSavedUserCards(savedMovies || []);
                 })
                 .catch((err) => console.log(err))
@@ -63,7 +63,15 @@ function App() {
         const token = localStorage.getItem('userId')
         if(token){
             setLoggedIn(true);
-            navigate("/movies", {replace: true});
+            if(pathname === '/'){
+                navigate("/movies", {replace: true})
+            }
+            if(pathname === '/saved-movies'){
+                navigate("/saved-movies", {replace: true})
+            }
+            if(pathname === '/profile'){
+                navigate("/profile", {replace: true})
+            }
         }
     }
     // получаем отфильтрованный список фильмов
@@ -72,7 +80,6 @@ function App() {
         moviesApi.getMovies(name)
             .then((data) => {
                 setUpdateMovies(!updateMovies);
-                setCards(getMoviesFilter(name, data));
                 setGetMoviesIsError(false);
                 localStorage.setItem('movies', JSON.stringify(getMoviesFilter(name, data)));
                 localStorage.setItem('requestNameMovie', name);
@@ -162,7 +169,8 @@ function App() {
             .then((user) => {
                 setPatchUserIsError(false);
                 setInfoToolTip(true);
-                setCurrentUser(user);
+                /*setCurrentUser(user);*/
+                localStorage.setItem('userInfo', JSON.stringify(user))
             }).catch((err) => {
                 setInfoToolTip(false);
                 setPatchUserIsError(true);
@@ -207,10 +215,10 @@ function App() {
         setInfoToolTip(false);
     }
   return (
-      <CurrentUserContext.Provider value={{currentUser, savedUserCards, setSavedUserCards}}>
+      <CurrentUserContext.Provider value={{savedUserCards, setSavedUserCards}}>
           <div className='page'>
               <Routes>
-                  <Route path='/' element={
+                  <Route exact path='/' element={
                       <>
                           <Header
                               handleButtonLogo={handleButtonLogo}
@@ -245,7 +253,6 @@ function App() {
                           handleMenuIsActive={handleMenuIsActive}
                           menuIsActive={menuIsActive}
                           handleGetMovies={handleGetMovies}
-                          cards={cards}
                           handleDeleteSavedCard={handleDeleteSavedCard}
                           handleIsShortFilms={handleIsShortFilms}
                       />
@@ -280,12 +287,6 @@ function App() {
                       <NotFound handleButtonLogo={handleButtonLogo}/>
                   }/>
               </Routes>
-              {/*<Main />*/}
-              {/*<Movies />*/}
-              {/*<SavedMovies />*/}
-              {/*<Register />*/}
-              {/*<Login />*/}
-              {/*<Profile />*/}
           </div>
       </CurrentUserContext.Provider>
   );

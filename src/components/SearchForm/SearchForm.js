@@ -41,7 +41,6 @@ export default function SearchForm(props){
             setIsError(false);
         }
     }
-
     return (
         <section className='search-form'>
             <div className='search-form__container'>
@@ -50,7 +49,7 @@ export default function SearchForm(props){
                         <div className='search-form__search-icon'></div>
                         <input className='search-form__input' onChange={handleMovieName}
                                type='text'
-                               placeholder='Фильм' value={movieName} required/>
+                               placeholder='Фильм' value={movieName || ''} required/>
                         <button className='search-form__submit' type='submit' />
                     </div>
                     <FilterCheckbox

@@ -12,13 +12,13 @@ export default function HeaderResult(props){
         navigate('/')
     }
     const handleButtonMovies = () => {
-        navigate('/movies')
+        navigate('/movies', {replace: true})
     }
     const handleButtonSavedMovies = () => {
-        navigate('/saved-movies');
+        navigate('/saved-movies', {replace: true});
     }
     const handleButtonProfile = () => {
-        navigate('/profile')
+        navigate('/profile', {replace: true})
     }
     return (
         <header className='header-result'>

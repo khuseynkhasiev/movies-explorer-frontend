@@ -16,9 +16,8 @@ export default function Movies(props){
         handleButtonSavedMovies,
         handleButtonMovies,
         handleButtonProfile,
-        handleGetMovies, //поиск по всем фильмам
+        handleGetMovies,
         getMoviesIsError,
-        cards,
         handleDeleteSavedCard,
         handleIsShortFilms,
         menuIsActive,
@@ -49,9 +48,7 @@ export default function Movies(props){
                     <Preloader /> :
                     <MoviesCardList
                         cards={moviesCards}
-                        /*cards={cards}*/
                         handleDeleteSavedCard={handleDeleteSavedCard}
-
                         getMoviesIsError={getMoviesIsError}
                         handlePostSavedCard={handlePostSavedCard}
                     />

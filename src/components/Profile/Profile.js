@@ -18,10 +18,9 @@ export default function Profile(props){
         infoToolTip,
         patchUserIsError,
     } = props;
-    const {currentUser} = useContext(CurrentUserContext);
-
-    const [name, setName] = useState(currentUser.name);
-    const [email, setEmail] = useState(currentUser.email);
+    const user = JSON.parse(localStorage.getItem('userInfo')) || {};
+    const [name, setName] = useState(user.name);
+    const [email, setEmail] = useState(user.email);
     const [onEditForm, setOnEditForm] = useState(false);
     const [emailOnError, setEmailOnError] = useState(false);
     const [nameOnError, setNameOnError] = useState(false);
@@ -30,17 +29,17 @@ export default function Profile(props){
     const [formValid, setFormValid] = useState(false);
 
     useEffect(() => {
-        if(email.length===0 || name.length===0){
+        if(email.length === 0 || name.length === 0){
             setFormValid(false);
         }
         else if(emailOnError || nameOnError){
             setFormValid(false);
-        } else if(name === currentUser.name && email === currentUser.email){
+        } else if(name === user.name && email === user.email){
             setFormValid(false);
         } else {
             setFormValid(true);
         }
-    }, [emailOnError, nameOnError, name, email, patchUserIsError, formValid, currentUser])
+    }, [emailOnError, nameOnError, name, email, patchUserIsError, formValid, user])
 
     const emailhandle = (e) => {
         setEmail(e.target.value);
