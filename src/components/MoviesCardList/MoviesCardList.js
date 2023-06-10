@@ -21,7 +21,6 @@ export default function MoviesCardList(props){
     const { pathname } = useLocation();
     const isSavedMoviesPage = pathname === '/saved-movies';
 
-
     useEffect(() => {
         window.addEventListener('resize', handleResize);
         handleResize();
@@ -55,22 +54,18 @@ export default function MoviesCardList(props){
         setWindowWidth(window.innerWidth);
         if (windowWidth > 1279 & cards !== null) {
             setNewCardsList(cards.slice(0,16));
-            /*handleVisibleBtn(cards.length, newCardsList.length);*/
             handleVisibleBtn(cards.length, cards.slice(0,16).length);
         }
         else if (windowWidth < 1280 & windowWidth > 1023 & cards !== null) {
             setNewCardsList(cards.slice(0,9));
-            /*handleVisibleBtn(cards.length, newCardsList.length);*/
             handleVisibleBtn(cards.length, cards.slice(0,9).length);
         }
         else if (windowWidth < 1024 & windowWidth > 649 & cards !== null) {
             setNewCardsList(cards.slice(0,8));
-            /*handleVisibleBtn(cards.length, newCardsList.length);*/
             handleVisibleBtn(cards.length, cards.slice(0,8).length);
         }
         else if (windowWidth < 650 & windowWidth > 319 & cards !== null) {
             setNewCardsList(cards.slice(0,5));
-            /*handleVisibleBtn(cards.length, newCardsList.length);*/
             handleVisibleBtn(cards.length, cards.slice(0,5).length);
         }
     }
@@ -87,7 +82,8 @@ export default function MoviesCardList(props){
             <div className='movies-card-list__container'>
                 {newCardsList.length === 0 ?
                     (getMoviesIsError ?
-                        <p className='movies-card-list__nothing-found-text'>Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз</p> :
+                        <p className='movies-card-list__nothing-found-text'>Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз</p>
+                        :
                         <p className='movies-card-list__nothing-found-text'>Ничего не найдено</p>)
                     :
                     <ul className='movies-card-list__elements'>

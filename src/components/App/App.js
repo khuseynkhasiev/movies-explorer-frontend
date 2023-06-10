@@ -35,6 +35,7 @@ function App() {
         if(loggedIn){
             Promise.all([mainApi.getProfileInfo(), mainApi.getSavedCards()])
                 .then(([user, savedMovies]) => {
+                    console.log(user);
                     localStorage.setItem('userInfo', JSON.stringify(user));
                     setSavedUserCards(savedMovies || []);
                 })
