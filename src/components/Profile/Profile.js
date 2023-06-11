@@ -89,7 +89,12 @@ export default function Profile(props){
         e.preventDefault();
         setFormValid(false);
         handlePatchUser({email, name});
-        setOnEditForm(true);
+
+        if(patchUserIsError) {
+            setOnEditForm(true);
+        } else {
+            setOnEditForm(false);
+        }
     }
     return (
         <>
@@ -106,7 +111,9 @@ export default function Profile(props){
             />}
             <InfoTooltip
                 onClose={onClose}
-                infoToolTip={infoToolTip}/>
+                infoToolTip={infoToolTip}
+                patchUserIsError={patchUserIsError} //
+            />
             <div className='profile'>
                 <form className='profile__form'>
                     <h3 className='profile__title'>Привет, {name}!</h3>

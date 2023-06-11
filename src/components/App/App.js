@@ -35,7 +35,6 @@ function App() {
         if(loggedIn){
             Promise.all([mainApi.getProfileInfo(), mainApi.getSavedCards()])
                 .then(([user, savedMovies]) => {
-                    console.log(user);
                     localStorage.setItem('userInfo', JSON.stringify(user));
                     setSavedUserCards(savedMovies || []);
                 })
@@ -143,7 +142,7 @@ function App() {
     function handleRegister({name, email, password}){
         return mainApi.register(name, email, password)
             .then((data) => {
-                navigate('/movies', {replace: true});
+                navigate('/signin', {replace: true});
             })
             .catch((err) => console.log(err));
     }
@@ -170,10 +169,9 @@ function App() {
             .then((user) => {
                 setPatchUserIsError(false);
                 setInfoToolTip(true);
-                /*setCurrentUser(user);*/
                 localStorage.setItem('userInfo', JSON.stringify(user))
             }).catch((err) => {
-                setInfoToolTip(false);
+                setInfoToolTip(true);
                 setPatchUserIsError(true);
             })
     }

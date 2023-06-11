@@ -80,30 +80,30 @@ export default function MoviesCardList(props){
     return (
         <section className='movies-card-list'>
             <div className='movies-card-list__container'>
-                {newCardsList.length === 0 ?
-                    (getMoviesIsError ?
-                        <p className='movies-card-list__nothing-found-text'>Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз</p>
-                        :
-                        <p className='movies-card-list__nothing-found-text'>Ничего не найдено</p>)
+                {!newCardsList && <p className='movies-card-list__nothing-found-text'>Ничего не найдено</p>}
+                {getMoviesIsError ?
+                    (<p className='movies-card-list__nothing-found-text'>
+                        Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз
+                    </p>)
                     :
-                    <ul className='movies-card-list__elements'>
+                    (<ul className='movies-card-list__elements'>
                         {
                             newCardsList.map((card) => {
-                            return <MoviesCard
-                                card={card}
-                                key={card.id}
-                                handlePostSavedCard={handlePostSavedCard}
-                                handleDeleteSavedCard={handleDeleteSavedCard}
-                                isCardCloseIcon={isSavedMoviesPage}
-                            />
+                                return <MoviesCard
+                                    card={card}
+                                    key={card.id}
+                                    handlePostSavedCard={handlePostSavedCard}
+                                    handleDeleteSavedCard={handleDeleteSavedCard}
+                                    isCardCloseIcon={isSavedMoviesPage}
+                                />
                             })
                         }
-                    </ul>
+                    </ul>)
                 }
                 {
                     !isSavedMoviesPage
                         &&
-                    (isVisibleBtn && <button className='movies-card-list__btn' onClick={handleIncrementBtnMovies}>Ещё</button>)
+                    (isVisibleBtn && !getMoviesIsError && <button className='movies-card-list__btn' onClick={handleIncrementBtnMovies}>Ещё</button>)
                 }
             </div>
         </section>
