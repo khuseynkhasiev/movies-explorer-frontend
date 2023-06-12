@@ -292,7 +292,7 @@ function App() {
                       />
                   }/>
                   <Route path='*' element={
-                      <NotFound handleButtonLogo={handleButtonLogo}/>
+                      <NotFound handleUserExit={handleUserExit}/>
                   }/>
               </Routes>
           </div>
