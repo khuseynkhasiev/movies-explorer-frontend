@@ -12,12 +12,12 @@ export default function Movies(props){
         updateMovies,
         handlePostSavedCard,
         handleMenuIsActive,
-        handleButtonLogo,
         handleGetMovies,
         getMoviesIsError,
         handleDeleteSavedCard,
         handleIsShortFilms,
         menuIsActive,
+        handleFilterSavedUserCards
     } = props;
 
     const [moviesCards, setMoviesCards] = useState([]);
@@ -31,6 +31,7 @@ export default function Movies(props){
                 <HeaderResult
                     handleMenuIsActive={handleMenuIsActive}
                     menuIsActive={menuIsActive}
+                    handleFilterSavedUserCards={handleFilterSavedUserCards}
                 />
                 <SearchForm
                     handleGetMovies={handleGetMovies}

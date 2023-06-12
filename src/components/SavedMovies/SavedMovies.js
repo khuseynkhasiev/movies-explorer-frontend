@@ -3,7 +3,7 @@ import './SavedMovies.css';
 import HeaderResult from "../HeaderResult/HeaderResult";
 import SearchForm from "../SearchForm/SearchForm";
 import Footer from "../Footer/Footer";
-import {useContext} from "react";
+import {useState, useContext, useEffect} from "react";
 import CurrentUserContext from "../../contexts/CurrentUserContext";
 export default function SavedMovies(props){
     const {
@@ -15,7 +15,8 @@ export default function SavedMovies(props){
         handleIsShortFilms,
         handleFilterSavedUserCards,
     } = props;
-    const {savedUserCards} = useContext(CurrentUserContext);
+    // const {savedUserCards} = useContext(CurrentUserContext);
+    const {savedUserCardsFilter} = useContext(CurrentUserContext);
 
     return (
         <div className='saved-movies'>
@@ -23,6 +24,7 @@ export default function SavedMovies(props){
                 <HeaderResult
                     handleMenuIsActive={handleMenuIsActive}
                     menuIsActive={menuIsActive}
+                    handleFilterSavedUserCards={handleFilterSavedUserCards}
                 />
                 <SearchForm
                     handleGetMovies={handleGetMovies}
@@ -31,7 +33,7 @@ export default function SavedMovies(props){
                     handleFilterSavedUserCards={handleFilterSavedUserCards}
                 />
                 <MoviesCardList
-                    cards={savedUserCards}
+                    cards={savedUserCardsFilter}
                     handleDeleteSavedCard={handleDeleteSavedCard}
                 />
             </div>

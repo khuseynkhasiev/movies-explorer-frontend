@@ -17,9 +17,6 @@ export default function SearchForm(props){
         if(pathname === '/movies'){
             setMovieName(localStorage.getItem('requestNameMovie'));
         }
-        if(pathname === '/saved-movies'){
-            setMovieName(localStorage.getItem('requestNameSaveMovie'));
-        }
     },[updateMovies]);
     const handleMovieName = (e) => {
         const {value} = e.target;
@@ -56,6 +53,7 @@ export default function SearchForm(props){
                         updateMovies={updateMovies}
                         handleIsShortFilms={handleIsShortFilms}
                         handleFilterSavedUserCards={handleFilterSavedUserCards}
+                        movieName={movieName}
                     />
                 </form>
                 <span

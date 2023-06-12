@@ -5,6 +5,7 @@ export default function HeaderResult(props){
     const {
         handleMenuIsActive,
         menuIsActive,
+        handleFilterSavedUserCards
     } = props;
 
     const navigate = useNavigate();
@@ -15,6 +16,7 @@ export default function HeaderResult(props){
         navigate('/movies', {replace: true})
     }
     const handleButtonSavedMovies = () => {
+        handleFilterSavedUserCards();
         navigate('/saved-movies', {replace: true});
     }
     const handleButtonProfile = () => {

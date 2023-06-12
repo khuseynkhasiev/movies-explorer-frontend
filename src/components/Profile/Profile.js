@@ -17,6 +17,7 @@ export default function Profile(props){
         onClose,
         infoToolTip,
         patchUserIsError,
+        handleFilterSavedUserCards
     } = props;
     const user = JSON.parse(localStorage.getItem('userInfo')) || {};
     const [name, setName] = useState(user.name);
@@ -101,10 +102,7 @@ export default function Profile(props){
             <HeaderResult
                 handleMenuIsActive={handleMenuIsActive}
                 menuIsActive={menuIsActive}
-                handleButtonLogo={handleButtonLogo}
-                handleButtonSavedMovies={handleButtonSavedMovies}
-                handleButtonMovies={handleButtonMovies}
-                handleButtonProfile={handleButtonProfile}
+                handleFilterSavedUserCards={handleFilterSavedUserCards}
             />
             {menuIsActive && <Menu
                 handleMenuIsActive={handleMenuIsActive}

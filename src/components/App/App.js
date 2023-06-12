@@ -28,6 +28,7 @@ function App() {
     const [infoToolTip, setInfoToolTip] = useState(false);
     const [getMoviesIsError, setGetMoviesIsError] = useState(false);
     const [savedUserCards, setSavedUserCards] = useState([]);
+    const [savedUserCardsFilter, setSavedUserCardsFilter] = useState([]);
 
     const {pathname} = useLocation();
 
@@ -43,6 +44,9 @@ function App() {
         }
         getIsShortFilm();
     }, [loggedIn])
+    useEffect(() => {
+        setSavedUserCardsFilter(savedUserCards);
+    }, [savedUserCards])
 
     // Получаем при начальной отрисовке значение isShortFilm
     function getIsShortFilm(){
@@ -105,8 +109,35 @@ function App() {
             }
         })
     }
+
     // получаем, фильтруем и записываем список сохраненных фильмов
     function handleFilterSavedUserCards(name){
+        if(name) {
+            if(localStorage.getItem('isShortFilmSaved') === 'true') {
+                setSavedUserCardsFilter(savedUserCards.filter((movie) => {
+                    return movie.nameRU.toLowerCase().indexOf(name.toLowerCase()) !== -1 && movie.duration <= 40
+                        ||
+                        movie.nameEN.toLowerCase().indexOf(name.toLowerCase()) !== -1 && movie.duration <= 40
+                }) || [])
+            } else if (localStorage.getItem('isShortFilmSaved') === 'false'){
+                setSavedUserCardsFilter(savedUserCards.filter((movie) => {
+                    return movie.nameRU.toLowerCase().indexOf(name.toLowerCase()) !== -1
+                        ||
+                        movie.nameEN.toLowerCase().indexOf(name.toLowerCase()) !== -1
+                }) || [])
+            }
+        } else {
+            if(localStorage.getItem('isShortFilmSaved') === 'true') {
+                setSavedUserCardsFilter(savedUserCards.filter((movie) => {
+                    return movie.duration <= 40 ? movie : null;
+                }) || [])
+            } else if (localStorage.getItem('isShortFilmSaved') === 'false'){
+                setSavedUserCardsFilter(savedUserCards || []);
+            }
+        }
+    }
+    // получаем, фильтруем и записываем список сохраненных фильмов
+    /*function handleFilterSavedUserCards(name){
         if(name) {
             localStorage.setItem('requestNameSaveMovie', name);
             mainApi.getSavedCards()
@@ -136,10 +167,10 @@ function App() {
                     } else if (localStorage.getItem('isShortFilmSaved') === 'false'){
                         setSavedUserCards(data || []);
                     }
-            }).catch((err) => console.log(err));
+                }).catch((err) => console.log(err));
         }
-    }
-    // регистрация
+    }*/
+    // регистрация*/
     function handleRegister({name, email, password}){
         return mainApi.register(name, email, password)
             .then((data) => {
@@ -186,6 +217,7 @@ function App() {
     }
     // удаление карточки из избранных
     function handleDeleteSavedCard(card){
+        setUpdateMovies(!updateMovies);
         mainApi.deleteSavedCard(card.id)
             .then(setSavedUserCards(state => state.filter(item => item.id === card.id ? null : card)))
             .catch((err) => console.log(err))
@@ -215,7 +247,7 @@ function App() {
         setInfoToolTip(false);
     }
   return (
-      <CurrentUserContext.Provider value={{savedUserCards, setSavedUserCards}}>
+      <CurrentUserContext.Provider value={{savedUserCards, setSavedUserCards, savedUserCardsFilter}}>
           <div className='page'>
               <Routes>
                   <Route exact path='/' element={
@@ -224,6 +256,7 @@ function App() {
                               <HeaderResult
                                   handleMenuIsActive={handleMenuIsActive}
                                   menuIsActive={menuIsActive}
+                                  handleFilterSavedUserCards={handleFilterSavedUserCards}
                               />
                               :
                               <Header
@@ -269,6 +302,7 @@ function App() {
                           handleGetMovies={handleGetMovies}
                           handleDeleteSavedCard={handleDeleteSavedCard}
                           handleIsShortFilms={handleIsShortFilms}
+                          handleFilterSavedUserCards={handleFilterSavedUserCards}
                       />
                   }/>
                   <Route path='/saved-movies' element={
@@ -295,6 +329,7 @@ function App() {
                           handleUserExit={handleUserExit}
                           handleMenuIsActive={handleMenuIsActive}
                           menuIsActive={menuIsActive}
+                          handleFilterSavedUserCards={handleFilterSavedUserCards}
                       />
                   }/>
                   <Route path='*' element={

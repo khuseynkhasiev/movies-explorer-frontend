@@ -6,16 +6,15 @@ export default function FilterCheckbox(props){
         updateMovies,
         handleIsShortFilms,
         handleFilterSavedUserCards,
+        movieName,
     } = props
 
     const [checked, setChecked] = useState(false);
     const {pathname} = useLocation();
+    localStorage.setItem('isShortFilmSaved', checked);
     useEffect(() => {
         if(pathname === '/movies'){
             setChecked(JSON.parse(localStorage.getItem('isShortFilm')));
-        }
-        if(pathname === '/saved-movies'){
-            setChecked(JSON.parse(localStorage.getItem('isShortFilmSaved')));
         }
     }, [updateMovies])
     const handleCheckedShortFilm = () => {
@@ -27,7 +26,7 @@ export default function FilterCheckbox(props){
             }
             if(pathname === '/saved-movies'){
                 localStorage.setItem('isShortFilmSaved', false);
-                handleFilterSavedUserCards(localStorage.getItem('requestNameSaveMovie'));
+                handleFilterSavedUserCards(movieName);
             }
         } else {
             if(pathname === '/movies'){
@@ -36,7 +35,7 @@ export default function FilterCheckbox(props){
             }
             if(pathname === '/saved-movies'){
                 localStorage.setItem('isShortFilmSaved', true);
-                handleFilterSavedUserCards(localStorage.getItem('requestNameSaveMovie'));
+                handleFilterSavedUserCards(movieName);
             }
         }
     }
