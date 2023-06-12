@@ -236,20 +236,26 @@ function App() {
                           <Footer />
                       </>
                   }/>
-                  <Route path='/signin' element={
-                      <Login
-                          handleLogin={handleLogin}
-                          handleButtonRegister={handleButtonRegister}
-                          handleButtonLogo={handleButtonLogo}
-                      />
-                  }/>
-                  <Route path='/signup' element={
-                      <Register
-                          handleRegister={handleRegister}
-                          handleButtonSignIn={handleButtonSignIn}
-                          handleButtonLogo={handleButtonLogo}
-                      />
-                  }/>
+                  {
+                      !loggedIn &&
+                      <Route path='/signin' element={
+                          <Login
+                              handleLogin={handleLogin}
+                              handleButtonRegister={handleButtonRegister}
+                              handleButtonLogo={handleButtonLogo}
+                          />
+                      }/>
+                  }
+                  {
+                      !loggedIn &&
+                      <Route path='/signup' element={
+                          <Register
+                              handleRegister={handleRegister}
+                              handleButtonSignIn={handleButtonSignIn}
+                              handleButtonLogo={handleButtonLogo}
+                          />
+                      }/>
+                  }
                   <Route path='/movies' element={
                       <ProtectedRoute
                           component={Movies}
