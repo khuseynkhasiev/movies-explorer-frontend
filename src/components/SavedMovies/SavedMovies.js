@@ -8,10 +8,6 @@ import CurrentUserContext from "../../contexts/CurrentUserContext";
 export default function SavedMovies(props){
     const {
         handleMenuIsActive,
-        handleButtonLogo,
-        handleButtonSavedMovies,
-        handleButtonMovies,
-        handleButtonProfile,
         handleDeleteSavedCard,
         menuIsActive,
         handleGetMovies,
@@ -26,10 +22,6 @@ export default function SavedMovies(props){
             <div className='saved-movies__container'>
                 <HeaderResult
                     handleMenuIsActive={handleMenuIsActive}
-                    handleButtonLogo={handleButtonLogo}
-                    handleButtonSavedMovies={handleButtonSavedMovies}
-                    handleButtonMovies={handleButtonMovies}
-                    handleButtonProfile={handleButtonProfile}
                     menuIsActive={menuIsActive}
                 />
                 <SearchForm

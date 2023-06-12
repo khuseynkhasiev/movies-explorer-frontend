@@ -16,6 +16,7 @@ import {useEffect, useState} from "react";
 import * as moviesApi from "../../utils/MoviesApi";
 import * as mainApi from "../../utils/MainApi";
 import CurrentUserContext from "../../contexts/CurrentUserContext";
+import HeaderResult from "../HeaderResult/HeaderResult";
 
 function App() {
     const navigate = useNavigate();
@@ -219,10 +220,18 @@ function App() {
               <Routes>
                   <Route exact path='/' element={
                       <>
-                          <Header
-                              handleButtonLogo={handleButtonLogo}
-                              handleButtonSignIn={handleButtonSignIn}
-                              handleButtonRegister={handleButtonRegister}/>
+                          {loggedIn ?
+                              <HeaderResult
+                                  handleMenuIsActive={handleMenuIsActive}
+                                  menuIsActive={menuIsActive}
+                              />
+                              :
+                              <Header
+                                  handleButtonLogo={handleButtonLogo}
+                                  handleButtonSignIn={handleButtonSignIn}
+                                  handleButtonRegister={handleButtonRegister}
+                              />
+                          }
                           <Main />
                           <Footer />
                       </>

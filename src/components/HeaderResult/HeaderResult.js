@@ -4,7 +4,7 @@ import {useNavigate} from "react-router-dom";
 export default function HeaderResult(props){
     const {
         handleMenuIsActive,
-        menuIsActive
+        menuIsActive,
     } = props;
 
     const navigate = useNavigate();

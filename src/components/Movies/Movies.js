@@ -13,9 +13,6 @@ export default function Movies(props){
         handlePostSavedCard,
         handleMenuIsActive,
         handleButtonLogo,
-        handleButtonSavedMovies,
-        handleButtonMovies,
-        handleButtonProfile,
         handleGetMovies,
         getMoviesIsError,
         handleDeleteSavedCard,
@@ -33,10 +30,6 @@ export default function Movies(props){
             <div className='movies__container'>
                 <HeaderResult
                     handleMenuIsActive={handleMenuIsActive}
-                    handleButtonLogo={handleButtonLogo}
-                    handleButtonSavedMovies={handleButtonSavedMovies}
-                    handleButtonMovies={handleButtonMovies}
-                    handleButtonProfile={handleButtonProfile}
                     menuIsActive={menuIsActive}
                 />
                 <SearchForm
