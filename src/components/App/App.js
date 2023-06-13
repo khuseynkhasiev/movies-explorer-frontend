@@ -17,6 +17,10 @@ import * as moviesApi from "../../utils/MoviesApi";
 import * as mainApi from "../../utils/MainApi";
 import CurrentUserContext from "../../contexts/CurrentUserContext";
 import HeaderResult from "../HeaderResult/HeaderResult";
+import InfoTooltipRegister from "../InfoTooltipRegister/InfoTooltipRegister";
+import InfoTooltipLogin from "../InfoTooltipLogin/InfoTooltipLogin";
+import InfoTooltipMovies from "../InfoTooltipMovies/InfoTooltipMovies";
+import {ShortFilmTime} from "../../constants";
 
 function App() {
     const navigate = useNavigate();
@@ -25,10 +29,19 @@ function App() {
     const [updateMovies, setUpdateMovies] = useState(false);
     const [loggedIn, setLoggedIn] = useState(false);
     const [patchUserIsError, setPatchUserIsError] = useState(false);
-    const [infoToolTip, setInfoToolTip] = useState(false);
     const [getMoviesIsError, setGetMoviesIsError] = useState(false);
     const [savedUserCards, setSavedUserCards] = useState([]);
     const [savedUserCardsFilter, setSavedUserCardsFilter] = useState([]);
+
+    const [infoToolTip, setInfoToolTip] = useState(false);
+
+    const [infoTooltipRegister, setInfoTooltipRegister] = useState(false);
+    const [infoTooltipRegisterError, setInfoTooltipRegisterError] = useState();
+
+    const [infoTooltipLogin, setInfoTooltipLogin] = useState(false);
+    const [infoTooltipLoginError, setInfoTooltipLoginError] = useState();
+
+    const [infoTooltipMovies, setInfoTooltipMovies] = useState(false);
 
     const {pathname} = useLocation();
 
@@ -99,9 +112,9 @@ function App() {
     function getMoviesFilter(name, data){
         return data.filter((movie) => {
             if(localStorage.getItem('isShortFilm') === 'true') {
-                return movie.nameRU.toLowerCase().indexOf(name.toLowerCase()) !== -1 && movie.duration <= 40
+                return movie.nameRU.toLowerCase().indexOf(name.toLowerCase()) !== -1 && movie.duration <= ShortFilmTime
                     ||
-                    movie.nameEN.toLowerCase().indexOf(name.toLowerCase()) !== -1 && movie.duration <= 40
+                    movie.nameEN.toLowerCase().indexOf(name.toLowerCase()) !== -1 && movie.duration <= ShortFilmTime
             } else if (localStorage.getItem('isShortFilm') === 'false'){
                 return movie.nameRU.toLowerCase().indexOf(name.toLowerCase()) !== -1
                     ||
@@ -109,15 +122,14 @@ function App() {
             }
         })
     }
-
     // получаем, фильтруем и записываем список сохраненных фильмов
     function handleFilterSavedUserCards(name){
         if(name) {
             if(localStorage.getItem('isShortFilmSaved') === 'true') {
                 setSavedUserCardsFilter(savedUserCards.filter((movie) => {
-                    return movie.nameRU.toLowerCase().indexOf(name.toLowerCase()) !== -1 && movie.duration <= 40
+                    return movie.nameRU.toLowerCase().indexOf(name.toLowerCase()) !== -1 && movie.duration <= ShortFilmTime
                         ||
-                        movie.nameEN.toLowerCase().indexOf(name.toLowerCase()) !== -1 && movie.duration <= 40
+                        movie.nameEN.toLowerCase().indexOf(name.toLowerCase()) !== -1 && movie.duration <= ShortFilmTime
                 }) || [])
             } else if (localStorage.getItem('isShortFilmSaved') === 'false'){
                 setSavedUserCardsFilter(savedUserCards.filter((movie) => {
@@ -129,54 +141,25 @@ function App() {
         } else {
             if(localStorage.getItem('isShortFilmSaved') === 'true') {
                 setSavedUserCardsFilter(savedUserCards.filter((movie) => {
-                    return movie.duration <= 40 ? movie : null;
+                    return movie.duration <= ShortFilmTime ? movie : null;
                 }) || [])
             } else if (localStorage.getItem('isShortFilmSaved') === 'false'){
                 setSavedUserCardsFilter(savedUserCards || []);
             }
         }
     }
-    // получаем, фильтруем и записываем список сохраненных фильмов
-    /*function handleFilterSavedUserCards(name){
-        if(name) {
-            localStorage.setItem('requestNameSaveMovie', name);
-            mainApi.getSavedCards()
-                .then((data) =>{
-                    if(localStorage.getItem('isShortFilmSaved') === 'true') {
-                        setSavedUserCards(data.filter((movie) => {
-                            return movie.nameRU.toLowerCase().indexOf(name.toLowerCase()) !== -1 && movie.duration <= 40
-                                ||
-                                movie.nameEN.toLowerCase().indexOf(name.toLowerCase()) !== -1 && movie.duration <= 40
-                        }) || [])
-                    } else if (localStorage.getItem('isShortFilmSaved') === 'false'){
-                        setSavedUserCards(data.filter((movie) => {
-                            return movie.nameRU.toLowerCase().indexOf(name.toLowerCase()) !== -1
-                                ||
-                                movie.nameEN.toLowerCase().indexOf(name.toLowerCase()) !== -1
-                        }) || [])
-                    }
-                }).catch((err) => console.log(err))
-        } else {
-            localStorage.setItem('requestNameSaveMovie', '');
-            mainApi.getSavedCards()
-                .then((data) => {
-                    if(localStorage.getItem('isShortFilmSaved') === 'true') {
-                        setSavedUserCards(data.filter((movie) => {
-                            return movie.duration <= 40 ? movie : null;
-                        }) || [])
-                    } else if (localStorage.getItem('isShortFilmSaved') === 'false'){
-                        setSavedUserCards(data || []);
-                    }
-                }).catch((err) => console.log(err));
-        }
-    }*/
-    // регистрация*/
+    // регистрация
     function handleRegister({name, email, password}){
         return mainApi.register(name, email, password)
             .then((data) => {
                 handleLogin({email, password});
             })
-            .catch((err) => console.log(err));
+            .catch((err) => {
+                setInfoTooltipRegister(true);
+                setInfoTooltipRegisterError(err.status);
+                console.log(`Ошибка: ${err.status}`);
+                }
+            )
     }
     // авторизация
     function handleLogin({email, password}){
@@ -187,7 +170,11 @@ function App() {
                     setLoggedIn(true);
                 }
             })
-            .catch((err) => console.log(err))
+            .catch((err) => {
+                setInfoTooltipLogin(true);
+                setInfoTooltipLoginError(err.status);
+                console.log(`Ошибка: ${err.status}`);
+            })
     }
     // выход пользователя
     function handleUserExit(){
@@ -205,6 +192,7 @@ function App() {
             }).catch((err) => {
                 setInfoToolTip(true);
                 setPatchUserIsError(true);
+                console.log(`Ошибка: ${err.status}`);
             })
     }
     // сохранение карточки в избранное
@@ -213,14 +201,20 @@ function App() {
             .then((card) => {
                 setSavedUserCards([...savedUserCards, card])
             })
-            .catch((err) => console.log(err))
+            .catch((err) => {
+                setInfoTooltipMovies(true);
+                console.log(`Ошибка: ${err.status}`);
+            })
     }
     // удаление карточки из избранных
     function handleDeleteSavedCard(card){
         setUpdateMovies(!updateMovies);
         mainApi.deleteSavedCard(card.id)
             .then(setSavedUserCards(state => state.filter(item => item.id === card.id ? null : card)))
-            .catch((err) => console.log(err))
+            .catch((err) => {
+                setInfoTooltipMovies(true);
+                console.log(`Ошибка: ${err.status}`);
+            })
     }
     // навигация к странице авторизации
     function handleButtonSignIn() {
@@ -245,6 +239,9 @@ function App() {
     // закрытие информационного попапа регистрации
     function closeInfoTooltip(){
         setInfoToolTip(false);
+        setInfoTooltipRegister(false);
+        setInfoTooltipLogin(false);
+        setInfoTooltipMovies(false);
     }
   return (
       <CurrentUserContext.Provider value={{savedUserCards, setSavedUserCards, savedUserCardsFilter}}>
@@ -272,38 +269,58 @@ function App() {
                   {
                       !loggedIn &&
                       <Route path='/signin' element={
-                          <Login
-                              handleLogin={handleLogin}
-                              handleButtonRegister={handleButtonRegister}
-                              handleButtonLogo={handleButtonLogo}
-                          />
+                          <>
+                              <Login
+                                  handleLogin={handleLogin}
+                                  handleButtonRegister={handleButtonRegister}
+                                  handleButtonLogo={handleButtonLogo}
+                              />
+                              <InfoTooltipLogin
+                                  infoTooltipLogin={infoTooltipLogin}
+                                  onClose={closeInfoTooltip}
+                                  infoTooltipLoginError={infoTooltipLoginError}
+                              />
+                          </>
                       }/>
                   }
                   {
                       !loggedIn &&
                       <Route path='/signup' element={
-                          <Register
-                              handleRegister={handleRegister}
-                              handleButtonSignIn={handleButtonSignIn}
-                              handleButtonLogo={handleButtonLogo}
-                          />
+                          <>
+                              <Register
+                                  handleRegister={handleRegister}
+                                  handleButtonSignIn={handleButtonSignIn}
+                                  handleButtonLogo={handleButtonLogo}
+                              />
+                              <InfoTooltipRegister
+                                  infoTooltipRegister={infoTooltipRegister}
+                                  onClose={closeInfoTooltip}
+                                  infoTooltipRegisterError={infoTooltipRegisterError}
+                              />
+                          </>
                       }/>
                   }
                   <Route path='/movies' element={
-                      <ProtectedRoute
-                          component={Movies}
-                          loggedIn={loggedIn}
-                          preloaderActive={preloaderActive}
-                          updateMovies={updateMovies}
-                          getMoviesIsError={getMoviesIsError}
-                          handlePostSavedCard={handlePostSavedCard}
-                          handleMenuIsActive={handleMenuIsActive}
-                          menuIsActive={menuIsActive}
-                          handleGetMovies={handleGetMovies}
-                          handleDeleteSavedCard={handleDeleteSavedCard}
-                          handleIsShortFilms={handleIsShortFilms}
-                          handleFilterSavedUserCards={handleFilterSavedUserCards}
-                      />
+                      <>
+                          <ProtectedRoute
+                              component={Movies}
+                              loggedIn={loggedIn}
+                              preloaderActive={preloaderActive}
+                              updateMovies={updateMovies}
+                              getMoviesIsError={getMoviesIsError}
+                              handlePostSavedCard={handlePostSavedCard}
+                              handleMenuIsActive={handleMenuIsActive}
+                              menuIsActive={menuIsActive}
+                              handleGetMovies={handleGetMovies}
+                              handleDeleteSavedCard={handleDeleteSavedCard}
+                              handleIsShortFilms={handleIsShortFilms}
+                              handleFilterSavedUserCards={handleFilterSavedUserCards}
+                          />
+                          <InfoTooltipMovies
+                              infoTooltipMovies={infoTooltipMovies}
+                              onClose={closeInfoTooltip}
+                          />
+                      </>
                   }/>
                   <Route path='/saved-movies' element={
                       <ProtectedRoute

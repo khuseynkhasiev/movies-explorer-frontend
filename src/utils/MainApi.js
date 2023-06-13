@@ -2,7 +2,8 @@ const BASE_URL = 'http://localhost:3000';
 // const BASE_URL = 'https://api.husmovies.nomoredomains.monster';
 
 const getResponse = (res) => {
-    return res.ok? res.json() : Promise.reject(`Ошибка: ${res.status}`)
+    /*return res.ok? res.json() : Promise.reject(`Ошибка: ${res.status}`)*/
+    return res.ok? res.json() : Promise.reject(res);
 }
 const register = (name, email, password) => {
     return fetch(`${BASE_URL}/signup`, {

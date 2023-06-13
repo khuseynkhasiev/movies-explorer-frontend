@@ -1,7 +1,9 @@
 import './InfoTooltip.css';
 export default function InfoTooltip(props) {
     const {
-        infoToolTip, onClose, patchUserIsError
+        infoToolTip,
+        onClose,
+        patchUserIsError,
     } = props
     return (<div className={`info-tooltip ${infoToolTip ? "info-tooltip_opened" : null} `}>
                 <div className="info-tooltip__container">
