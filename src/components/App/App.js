@@ -350,7 +350,7 @@ function App() {
                       />
                   }/>
                   <Route path='*' element={
-                      <NotFound handleUserExit={handleUserExit}/>
+                      <NotFound />
                   }/>
               </Routes>
           </div>
