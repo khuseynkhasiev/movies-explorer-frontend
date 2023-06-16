@@ -5,10 +5,13 @@
     flex-direction: column;
     justify-content: space-between;
 }
+.movies-card__link{
+    text-decoration: none;
+}
 .movies-card__img{
     display: block;
     width: 100%;
-    min-height: 151px;
+    height: 151px;
 }
 .movies-card__info{
     display: flex;
@@ -41,19 +44,14 @@
     border-style: none;
     cursor: pointer;
 }
-.movies-card__btn:hover{
-    width: 24px;
-    height: 24px;
-    background-color: #313131;
-    background-image: url(../../images/btn-delete-card-icon.svg);
-    background-repeat: no-repeat;
-    background-position: center;
-    border-radius: 36px;
-    border-style: none;
-}
+
 .movies-card__btn_active{
     background-image: url(../../images/card-like.svg);
     background-repeat: no-repeat;
+}
+.movies-card__btn-close{
+    background-image: url(../../images/close-icon.svg);
+    background-size: 9px 9px;
 }
 .movies-card__time{
     width: 100%;

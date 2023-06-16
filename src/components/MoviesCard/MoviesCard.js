@@ -1,20 +1,52 @@
 import './MoviesCard.css';
+import {useContext, useEffect, useState} from "react";
+import CurrentUserContext from "../../contexts/CurrentUserContext";
+import {Link} from "react-router-dom";
+export default function MoviesCard(props){
+    const {
+        card,
+        handlePostSavedCard,
+        handleDeleteSavedCard,
+        isCardCloseIcon,
+    } = props;
+    const {savedUserCards} = useContext(CurrentUserContext);
+    const [cardImageUrl, setCardImageUrl] = useState('');
+    const [isLikeMovie, setIsLikeMovie] = useState(savedUserCards.some(i => i.id === card.id));
+    useEffect(() => {
+        setIsLikeMovie(savedUserCards.some(i => i.id === card.id));
+    }, [savedUserCards]);
+    useEffect(()=> {
+        if(typeof card.image === "string"){
+            setCardImageUrl(card.image);
+        } else {
+            setCardImageUrl(`https://api.nomoreparties.co${card.image.url}`);
+        }
+    }, [card])
 
-export default function MoviesCard({card}){
-    const cardLikeButtonClassName = (
-        `movies-card__btn ${card.isLike && 'movies-card__btn_active'}`
-    );
+    function handleLikeCardBtn(){
+        if(isLikeMovie){
+            setIsLikeMovie(false);
+            handleDeleteSavedCard(card);
+        } else {
+            const isLiked = savedUserCards.some(i => i.id === card.id);
+            setIsLikeMovie(true);
+            if(!isLiked){
+                handlePostSavedCard(card);
+            }
+        }
+    }
     return (
         <li className='movies-card'>
-
             <div className='movies-card__info'>
-                <img className='movies-card__img' src={card.image} alt={card.name}/>
+                <Link className={'movies-card__link'} to={card.trailerLink} target='_blank'>
+                    <img className='movies-card__img' src={cardImageUrl} alt={card.nameRU}/>
+                </Link>
                 <div className='movies-card__info-line'>
-                    <p className='movies-card__text'>{card.name}</p>
-                    <button className={cardLikeButtonClassName} type="button" aria-label="кнопка выставления лайка или отмены лайка"></button>
+                    <p className='movies-card__text'>{card.nameRU}</p>
+                    <button className={`movies-card__btn ${isLikeMovie && 'movies-card__btn_active'} ${isCardCloseIcon && 'movies-card__btn-close'}`} onClick={handleLikeCardBtn} type="button" aria-label="кнопка выставления лайка или отмены лайка"></button>
                 </div>
             </div>
-            <p className='movies-card__time'>{card.time}</p>
+            <p className='movies-card__time'>{card.duration} м</p>
         </li>
     )
 }

@@ -43,6 +43,21 @@
     color: #8B8B8B;
     outline-color: #4285F4;
 }
+.search-form__input-error{
+    font-family: 'Inter', 'Arial', 'sans-serif';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 12px;
+    color: #EE3465;
+    margin: 20px auto 10px;
+    visibility: hidden;
+    display: block;
+    text-align: center;
+}
+.search-form__input-error_visible{
+    visibility: visible;
+}
 .search-form__submit{
     background: #4285F4;
     border-radius: 48px;
