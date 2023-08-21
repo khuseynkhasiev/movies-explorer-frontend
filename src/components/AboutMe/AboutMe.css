@@ -80,7 +80,8 @@
     max-width: 270px;
     width: 100%;
     min-height: 327px;
-    object-fit: contain;
+    object-fit: cover;
+    border-radius: 5%;
 }
 @media (max-width: 1023px){
     .about-me__container{
